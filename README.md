@@ -30,6 +30,10 @@
 ✅ Creates a working **.desktop launcher** for easy access
 <br/>
 ✅ Configures **UMU** with the `GAMEID=umu-genshin` setup
+<br/>
+✅ Update **Proton-GE** to the latest version anytime with the `update_proton.sh` script
+<br/>
+✅ Completely **uninstall** without remaining any traces with the `uninstall.sh` script
 
 ---
 
