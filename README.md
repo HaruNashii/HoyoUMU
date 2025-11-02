@@ -34,6 +34,8 @@
 ✅ Update **Proton-GE** to the latest version anytime with the `update_proton.sh` script
 <br/>
 ✅ Completely **uninstall** without remaining any traces with the `uninstall.sh` script
+<br/>
+✅ Check **UMU** availability and if it exist copy it to the right place with the 'check_umu.sh' script
 
 ---
 
