@@ -1,6 +1,6 @@
 # 🎮 HoyoUMU
 
-**HoyoUMU** is a simple shell script that **downloads and sets up HoYoPlay using UMU** automatically — no manual tinkering required.
+**HoyoUMU** is a simple shell script that **downloads and sets up HoYoPlay using UMU and Proton-GE** automatically — no manual tinkering required.
 
 ---
 
