@@ -82,6 +82,7 @@ chmod a+x install.sh && ./install.sh
 | Component               | Path                                                                             |
 | ----------------------- | -------------------------------------------------------------------------------- |
 | **HoYoPlay Icon**       | `/usr/share/icons/hicolor/256x256/apps/hoyoplay_icon.png`                        |
+| **HoYoPlay Games**      | `~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/games/`       |
 | **HoYoPlay Executable** | `~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe` |
 | **HoYoPlay Installer**  | `~/.config/hoyoplay-umu/Hoyoplay_setup.exe`                                      |
 | **Proton-GE Build**     | `~/.config/hoyoplay-umu/Proton-GE_Latest`                                        |
