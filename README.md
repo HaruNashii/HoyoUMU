@@ -20,3 +20,7 @@ HoyoUMU Is An Simple Script That Download And Setup HoyoPlay Using UMU
 
 # Todo:
 - Enable FeralGamemode
+
+# Credits:
+- [UMU](https://github.com/Open-Wine-Components/umu-launcher)
+- [Proton-GE](https://github.com/GloriousEggroll/proton-ge-custom)
