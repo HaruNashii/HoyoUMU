@@ -28,6 +28,7 @@ sudo mkdir -p $icon_path
 
 
 # ==== Scripts ====
+./scripts/check_umu.sh
 ./scripts/kill_genshin.sh
 #./scripts/valve_proton_downloader_and_updater.sh - Currently Not Working
 ./scripts/proton_ge_downloader_and_updater.sh
