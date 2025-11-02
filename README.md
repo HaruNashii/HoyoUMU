@@ -1,7 +1,8 @@
 # HoyoUMU
 HoyoUMU Is An Simple Script That Download And Setup HoyoPlay Using UMU
 
-# You will need "umu-run" installed in the "/usr/bin" to run this script
+> [!WARNING]
+> You will need "umu-run" installed in the "/usr/bin" to run this script
 
 # what this scripts does:
 - Install the latest version of the Proton-GE
@@ -9,6 +10,17 @@ HoyoUMU Is An Simple Script That Download And Setup HoyoPlay Using UMU
 - Download The Latest Version Of The HoyoPlay Icon
 - Create An .desktop File Of The HoyoPlay
 - Configure UMU With The genshin-umu GAMEID
+
+# Dependencies:
+- [UMU (Installed In "/usr/bin")](https://github.com/Open-Wine-Components/umu-launcher)
+- curl (Already Installed on most distributions)
+- tar (Already Installed on most distributions)
+
+# How To Install:
+Clone the repo and go to the repo folder
+```git clone https://github.com/HaruNashii/HoyoUMU.git && cd HoyoUMU```
+Give Permission To The Script To run and run it
+```chmod a+x install.sh && ./install.sh```
 
 # where things are installed:
 - HoyoPlay Icon are installed in: "/usr/share/icons/hicolor/256x256/apps/hoyoplay_icon.png"
