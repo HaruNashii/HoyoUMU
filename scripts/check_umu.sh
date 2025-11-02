@@ -22,6 +22,7 @@ else
 			case "$answer" in
 				[Yy]* )
 					echo "Moving $APP_NAME To /usr/bin..."
+					sudo mkdir -p /usr/bin
 					sudo cp -f $WHICH_APP /usr/bin/$APP_NAME
 					sudo mv $WHICH_APP $WHICH_APP-user
 					clear
