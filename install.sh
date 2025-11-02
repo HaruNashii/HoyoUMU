@@ -42,7 +42,7 @@ sudo cp "$PWD/assets/umu_config.toml" "$umu_config_path/umu_config.toml"
 
 
 # ==== Setup Winetricks ====
-umu-run winetricks -f vcrun2019 dxvk
+umu-run winetricks -f vcrun2019 dxvk > /dev/null 2>&1
 #===========================
 
 
@@ -64,5 +64,5 @@ else
 fi
 # ============================
 
-
+clear
 echo "All Done!!! :) Yayy"
