@@ -1,0 +1,5 @@
+[umu]
+prefix = "~/.config/hoyoplay-umu/wine_prefix"
+proton = "~/.config/hoyoplay-umu/Proton-GE_Latest"
+game_id = "umu-genshin"
+exe = "~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe"
