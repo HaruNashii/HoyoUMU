@@ -43,11 +43,11 @@
 
 ## 📦 Dependencies
 
-| Dependency                                                  | Description                      | Default Availability                |
-| ----------------------------------------------------------- | -------------------------------- | ----------------------------------- |
-| [UMU](https://github.com/Open-Wine-Components/umu-launcher) | Unified Modding Utility launcher | Must be installed manually          |
-| `curl`                                                      | Fetches downloads                | Pre-installed on most Linux distros |
-| `tar`                                                       | Extracts Proton-GE archives      | Pre-installed on most Linux distros |
+| Dependency                                                  | Description                                           | Default Availability                |
+| ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
+| [UMU](https://github.com/Open-Wine-Components/umu-launcher) | UMU is a unified launcher for Windows games on Linux. | Must be installed manually          |
+| `curl`                                                      | Fetches downloads                                     | Pre-installed on most Linux distros |
+| `tar`                                                       | Extracts Proton-GE archives                           | Pre-installed on most Linux distros |
 
 ---
 
