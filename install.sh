@@ -29,6 +29,7 @@ sudo mkdir -p $icon_path
 
 # ==== Scripts ====
 ./scripts/kill_genshin.sh
+#./scripts/valve_proton_downloader_and_updater.sh - Currently Not Working
 ./scripts/proton_ge_downloader_and_updater.sh
 ./scripts/download_hoyoplay.sh
 # =================
@@ -39,8 +40,9 @@ cp "$PWD/assets/Hoyoplay.desktop" "$desktop_file_path"
 sudo cp "$PWD/assets/umu_config.toml" "$umu_config_path/umu_config.toml"
 # ============================
 
+
 # ==== Setup Winetricks ====
-umu-run winetricks corefonts vcrun2019 dxvk
+umu-run winetricks -f vcrun2019 dxvk
 #===========================
 
 
@@ -48,11 +50,13 @@ umu-run winetricks corefonts vcrun2019 dxvk
 curl -L "https://raw.githubusercontent.com/Open-Wine-Components/umu-protonfixes/master/gamefixes-umu/umu-genshin.py" -o "$localfix_path/umu-genshin.py"
 #============================
 
+
 # ==== Run HoyoPlay Setup ====
 if [ ! -f "$wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe" ]; then
+	chmod a+rwx $hoyoplay_setup_path
 	export WINEPREFIX="$wine_prefix"
 	export GAMEID="umu-genshin"
-	export PROTONPATH="$app_data_path/Proton-GE_Latest"
+	export PROTONPATH="$app_data_path/ProtonLatest"
 	echo "Running HoyoPlay Setup... (Please Don't Select An Different Path In The Launcher Installation!!!!!)"
 	umu-run "$hoyoplay_setup_path" > /dev/null 2>&1
 else
@@ -60,5 +64,5 @@ else
 fi
 # ============================
 
-clear
+
 echo "All Done!!! :) Yayy"

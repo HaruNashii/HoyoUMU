@@ -15,7 +15,7 @@ cd $tmp_working_directory
 
 # ==== Download Proton-GE ====
 if [ ! -d "$proton_folder/$proton_ge_version" ]; then
-	if [ ! -d "$proton_folder/Proton-GE_Latest" ]; then
+	if [ ! -d "$proton_folder/ProtonLatest" ]; then
 		if [ ! -f "$tmp_working_directory/$proton_ge_version_tar_file" ]; then
 			echo "Downloading $proton_ge_version, Please Wait..."
 			curl -sLOJ $file_to_download
@@ -26,13 +26,13 @@ fi
 
 clear
 
-if [ -d "$proton_folder/Proton-GE_Latest" ]; then
+if [ -d "$proton_folder/ProtonLatest" ]; then
     echo "Your Proton-GE Is Already The Latest Version."
 else
 	if [ -d "$proton_folder/$proton_ge_version" ]; then 
-		# ==== Rename Proton-GE_(Version) To Proton-GE_Latest ====
-		echo "Renaming $proton_ge_version To Proton-GE_Latest"
-		mv "$proton_folder/$proton_ge_version" "$proton_folder/Proton-GE_Latest"
+		# ==== Rename Proton-GE_(Version) To ProtonLatest ====
+		echo "Renaming $proton_ge_version To ProtonLatest"
+		mv "$proton_folder/$proton_ge_version" "$proton_folder/ProtonLatest"
 		clear
 		echo "$proton_ge_version Installed!"
 		#=========================================================
@@ -41,8 +41,8 @@ else
 		echo "Extracting Proton-GE To Proton Folder..."
 		tar -xf GE-Proton*.tar.gz -C $proton_folder
 		clear
-		echo "Renaming $proton_ge_version To Proton-GE_Latest"
-		mv "$proton_folder/$proton_ge_version" "$proton_folder/Proton-GE_Latest"
+		echo "Renaming $proton_ge_version To ProtonLatest"
+		mv "$proton_folder/$proton_ge_version" "$proton_folder/ProtonLatest"
 		clear
 		echo "$proton_ge_version Installed!"
 		#=======================================
