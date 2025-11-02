@@ -5,6 +5,7 @@ desktop_file_path="$HOME/.local/share/applications"
 hoyoplay_setup_path="$app_data_path/Hoyoplay_setup.exe"
 umu_config_path="/usr/share/hoyoplay_umu_config"
 icon_path="/usr/share/icons/hicolor/256x256/apps"
+localfix_path="$HOME/.config/protonfixes/localfixes"
 # ===================
 
 
@@ -20,6 +21,7 @@ sudo rm -f "$icon_path/hoyoplay_icon.png"
 mkdir -p $app_data_path
 mkdir -p $wine_prefix
 mkdir -p $desktop_file_path
+mkdir -p $localfix_path
 sudo mkdir -p $umu_config_path
 sudo mkdir -p $icon_path
 # =========================
@@ -37,6 +39,14 @@ cp "$PWD/assets/Hoyoplay.desktop" "$desktop_file_path"
 sudo cp "$PWD/assets/umu_config.toml" "$umu_config_path/umu_config.toml"
 # ============================
 
+# ==== Setup Winetricks ====
+umu-run winetricks corefonts vcrun2019 dxvk
+#===========================
+
+
+# ==== Setup ProtonFixes ====
+curl -L "https://raw.githubusercontent.com/Open-Wine-Components/umu-protonfixes/master/gamefixes-umu/umu-genshin.py" -o "$localfix_path/umu-genshin.py"
+#============================
 
 # ==== Run HoyoPlay Setup ====
 if [ ! -f "$wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe" ]; then
