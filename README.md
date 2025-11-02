@@ -4,6 +4,10 @@
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 ## ⚠️ Requirements
 
 > **Important:**
@@ -11,15 +15,27 @@
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 ## 🧰 What This Script Does
 
 ✅ Installs the **latest version of Proton-GE**
+<br/>
 ✅ Downloads the **latest version of HoYoPlay**
+<br/>
 ✅ Fetches and installs the **official HoYoPlay icon**
+<br/>
 ✅ Creates a working **.desktop launcher** for easy access
+<br/>
 ✅ Configures **UMU** with the `GAMEID=umu-genshin` setup
 
 ---
+
+<br/>
+<br/>
+<br/>
 
 ## 📦 Dependencies
 
@@ -30,6 +46,10 @@
 | `tar`                                                       | Extracts Proton-GE archives      | Pre-installed on most Linux distros |
 
 ---
+
+<br/>
+<br/>
+<br/>
 
 ## 🚀 Installation
 
@@ -47,6 +67,10 @@ chmod a+x install.sh && ./install.sh
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 ## 📁 Installation Paths
 
 | Component               | Path                                                                             |
@@ -60,6 +84,10 @@ chmod a+x install.sh && ./install.sh
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 ## 🧩 To-Do
 
 * [ ] Enable **Feral Gamemode** for performance boost
@@ -67,12 +95,20 @@ chmod a+x install.sh && ./install.sh
 
 ---
 
+<br/>
+<br/>
+<br/>
+
 ## 🙌 Credits
 
 * 🧩 [UMU Launcher](https://github.com/Open-Wine-Components/umu-launcher)
 * 🥚 [Proton-GE Custom](https://github.com/GloriousEggroll/proton-ge-custom)
 
 ---
+
+<br/>
+<br/>
+<br/>
 
 ### 💡 Tip
 
