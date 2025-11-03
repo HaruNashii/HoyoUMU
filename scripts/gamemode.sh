@@ -18,12 +18,12 @@ else
 				cp "$PWD/assets/Hoyoplay_gamemode.desktop" "$desktop_file_path"
 				echo "Gamemode configured in your launcher, enjoy!!! 0/"
 				echo "Desktop file created"
-				break
+				exit 0
 				;;
 			[Nn]* )
 				cp "$PWD/assets/Hoyoplay.desktop" "$desktop_file_path"
 				echo "Desktop file created"
-				break
+				exit 0
 				;;
 			* )
 				echo "❌ Invalid input. Please enter 'y' or 'n'."
