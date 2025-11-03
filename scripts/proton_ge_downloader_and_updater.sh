@@ -4,14 +4,22 @@ proton_ge_version_tar_file=$(curl -s https://api.github.com/repos/GloriousEggrol
 proton_ge_version=$(echo $proton_ge_version_tar_file | sed 's/.tar.gz$//')
 proton_folder="$HOME/.config/hoyoplay-umu"
 file_to_download="$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)"
-raw_proton_installed_version=$(cat $proton_folder/ProtonLatest/version)
-proton_installed_version=${raw_proton_installed_version#* }
 #====================
 
 # ==== Create Directory ====
 mkdir -p $tmp_working_directory
 mkdir -p $proton_folder
 #===========================
+
+# ==== Prevent Cat Error ====
+if [ ! -f "$proton_folder/ProtonLatest/version" ]; then
+	raw_proton_installed_version="none"
+	proton_installed_version="none"
+else
+	raw_proton_installed_version=$(cat $proton_folder/ProtonLatest/version)
+	proton_installed_version=${raw_proton_installed_version#* }
+fi
+#============================
 
 cd $tmp_working_directory
 
