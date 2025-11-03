@@ -10,7 +10,7 @@
 ## 🧪 Games Tested
 - ✅ Genshin Impact (Runned Without Any Flaws)
 - ✅ Zenless Zone Zero (Runned Without Any Flaws)
-- ❌ Honkai Star Rail (Currently Borked/Not Working :()
+- ❌ Honkai Star Rail (Currently Borked/Not Working)
 - ❌ Honkai Impact 3rd (Borked Because of anti-cheat)
 
 ---
@@ -115,3 +115,13 @@ chmod a+x install.sh && ./install.sh
 ### 💡 Tip
 
 After installation, you can find **HoYoPlay** directly in your app launcher — ready to start your next adventure!
+
+---
+
+<br/>
+<br/>
+
+### 🤝 Contributions
+Just me for now 0-0
+
+---
