@@ -50,7 +50,7 @@
 | Dependency                                                  | Description                                           | Default Availability                |
 | ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
 | [UMU](https://github.com/Open-Wine-Components/umu-launcher) | UMU is a unified launcher for Windows games on Linux. | Must be installed manually          |
-| [Gamemode](https://github.com/FeralInteractive/gamemode/)   | Optimise Linux system performance on demand .         | Must be installed manually          |
+| [Gamemode (Optional)](https://github.com/FeralInteractive/gamemode/)   | Optimise Linux system performance on demand .         | Must be installed manually          |
 | `curl`                                                      | Fetches downloads                                     | Pre-installed on most Linux distros |
 | `tar`                                                       | Extracts Proton-GE archives                           | Pre-installed on most Linux distros |
 
