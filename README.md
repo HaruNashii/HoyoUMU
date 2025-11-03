@@ -19,6 +19,18 @@
 <br/>
 <br/>
 
+## 🧪 Games Tested
+- ✅ Genshin Impact (Runned Without Any Flaws)
+- ✅ Zenless Zone Zero (Runned Without Any Flaws)
+- ❌ Honkai Star Rail (Currently Borked/Not Working :()
+- ❌ Honkai Impact 3rd (Borked Because of anti-cheat)
+
+---
+
+<br/>
+<br/>
+<br/>
+
 ## 🧰 What This Script Does
 
 ✅ Installs the **latest version of Proton-GE**
@@ -91,6 +103,16 @@ chmod a+x install.sh && ./install.sh
 | **Proton-GE Build**     | `~/.config/hoyoplay-umu/Proton-GE_Latest`                                        |
 | **Desktop Shortcut**    | `~/.local/share/applications/Hoyoplay.desktop`                                   |
 | **UMU Config File**     | `/usr/share/hoyoplay_umu_config/umu_config.toml`                                 |
+
+---
+
+<br/>
+<br/>
+<br/>
+
+## 👾 known Issues
+- White bars in the border of the launcher
+- Launcher flickering black some times
 
 ---
 
