@@ -67,6 +67,7 @@ sudo cp "$PWD/assets/hoyoumu.py" "$localfix_path/hoyoumu.py"
 
 
 # ==== Setup Winetricks ====
+echo "Setting Up WineTricks, Please Wait..."
 umu-run winetricks -f vcrun2019 dxvk > /dev/null 2>&1
 #===========================
 
