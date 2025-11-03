@@ -9,11 +9,10 @@ WHICH_APP=$(which $APP_NAME)
 
 # Check if the app exists in PATH
 if ! command -v "$APP_NAME" &> /dev/null; then
-
-    clear
-    echo "ERROR!!!: '$APP_NAME' is not installed, please install it before running this script again."
-    exit 1
-
+    	clear
+    	echo "ERROR!!!: '$APP_NAME' is not installed, please install it before running this script again."
+	kill $PPID
+	kill $$
 else
 	if [[ "$WHICH_APP" != "/usr/bin/$APP_NAME" ]]; then
 
@@ -32,7 +31,8 @@ else
 				[Nn]* )
 					echo "Unfortunately the app won't run without umu-run in the /usr/bin"
 					echo "So, bye bye o/"
-					exit 0
+					kill $PPID
+					kill $$
 					break
 					;;
 				* )
