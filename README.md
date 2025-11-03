@@ -29,7 +29,7 @@
 <br/>
 ✅ Creates a working **.desktop launcher** for easy access
 <br/>
-✅ Configures **UMU** with the `GAMEID=umu-genshin` setup
+✅ Configures **UMU** with my personal `hoyoumu.py` setup to guarantee an smooth adventure
 <br/>
 ✅ Update **Proton-GE** to the latest version anytime with the `update_proton.sh` script
 <br/>

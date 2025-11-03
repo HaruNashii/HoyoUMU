@@ -1,11 +1,9 @@
 [umu]
 prefix = "~/.config/hoyoplay-umu/wine_prefix"
 proton = "~/.config/hoyoplay-umu/ProtonLatest"
-title = "Genshin Impact"
-store =	"none"
-game_id = "umu-genshin"
-codename = "none"
+game_id = "hoyoumu"
 exe = "~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe"
 
 [env]
 PROTON_VERB = "waitforexitandrun"
+
