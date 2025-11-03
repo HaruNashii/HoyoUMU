@@ -7,6 +7,7 @@ icon_path="/usr/share/icons/hicolor/256x256/apps"
 
 rm -rf "$app_data_path"
 sudo rm -rf "$umu_config_path"
+rm -f "$localfix_path/hoyoumu.py"
 rm -f "$desktop_file_path/Hoyoplay.desktop"
 sudo rm -f "$icon_path/hoyoplay_icon.png"
 

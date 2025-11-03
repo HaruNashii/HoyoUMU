@@ -62,7 +62,7 @@ sudo mkdir -p $icon_path
 
 # ==== Copy Necessary Data ====
 sudo cp "$PWD/assets/umu_config.toml" "$umu_config_path/umu_config.toml"
-sudo cp "$PWD/assets/hoyoumu.py" "$localfixes"
+sudo cp "$PWD/assets/hoyoumu.py" "$localfix_path/hoyoumu.py"
 # ============================
 
 
