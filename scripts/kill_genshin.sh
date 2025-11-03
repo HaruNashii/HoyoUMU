@@ -14,5 +14,4 @@ pkill windows
 pkill Windows
 pkill explorer
 pkill explorer.exe
-clear
 echo "All Genshin Instances Killed."

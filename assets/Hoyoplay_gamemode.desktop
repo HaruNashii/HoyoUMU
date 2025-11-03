@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=HoyoPlay
+Comment=The click that launched a thousand adventures
+Exec=gamemoderun /usr/bin/umu-run --config /usr/share/hoyoplay_umu_config/umu_config.toml
+Icon=/usr/share/icons/hicolor/256x256/apps/hoyoplay_icon.png
+Terminal=false
+Type=Application
+Categories=Game;

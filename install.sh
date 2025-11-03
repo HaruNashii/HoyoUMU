@@ -9,6 +9,28 @@ localfix_path="$HOME/.config/protonfixes/localfixes"
 # ===================
 
 
+# ==== Check if an old installation exist ====
+if [ -d "$app_data_path" ]; then
+	while true; do
+		read -rp "WARNING!!!: Detected an installation of this launcher, if you proceed all your games and launcher data will be deleted, you want to continue? [y/n]: " answer
+		case "$answer" in
+			[Yy]* )
+				break
+				;;
+			[Nn]* )
+				clear
+				echo "Okay, Exited without removing any data"
+				exit 0
+				;;
+			* )
+				echo "❌ Invalid input. Please enter 'y' or 'n'."
+				;;
+		esac
+	done
+fi
+# ===========================================
+
+
 # ==== Remove Old Data ====
 rm -rf "$app_data_path"
 sudo rm -rf "$umu_config_path"
@@ -33,11 +55,11 @@ sudo mkdir -p $icon_path
 #./scripts/valve_proton_downloader_and_updater.sh - Currently Not Working
 ./scripts/proton_ge_downloader_and_updater.sh
 ./scripts/download_hoyoplay.sh
+./scripts/gamemode.sh
 # =================
 
 
 # ==== Copy Necessary Data ====
-cp "$PWD/assets/Hoyoplay.desktop" "$desktop_file_path"
 sudo cp "$PWD/assets/umu_config.toml" "$umu_config_path/umu_config.toml"
 # ============================
 
@@ -48,7 +70,7 @@ umu-run winetricks -f vcrun2019 dxvk > /dev/null 2>&1
 
 
 # ==== Setup ProtonFixes ====
-curl -L "https://raw.githubusercontent.com/Open-Wine-Components/umu-protonfixes/master/gamefixes-umu/umu-genshin.py" -o "$localfix_path/umu-genshin.py"
+curl -L "https://raw.githubusercontent.com/Open-Wine-Components/umu-protonfixes/master/gamefixes-umu/umu-genshin.py" -o "$localfix_path/umu-genshin.py" > /dev/null 2>&1
 #============================
 
 

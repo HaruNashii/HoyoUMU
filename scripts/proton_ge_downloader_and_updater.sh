@@ -22,9 +22,8 @@ if [ ! -d "$proton_folder/$proton_ge_version" ]; then
 			rm -rf $proton_folder/ProtonLatest
 		fi
 		if [ ! -f "$tmp_working_directory/$proton_ge_version_tar_file" ]; then
-			clear
 			echo "Downloading $proton_ge_version, Please Wait..."
-			curl -sLOJ $file_to_download
+			curl -sLOJ $file_to_download > /dev/null 2>&1
 		fi 
 	fi
 fi
@@ -43,7 +42,6 @@ else
 		# ==== Rename Proton-GE_(Version) To ProtonLatest ====
 		echo "Renaming $proton_ge_version To ProtonLatest"
 		mv "$proton_folder/$proton_ge_version" "$proton_folder/ProtonLatest"
-		clear
 		echo "$proton_ge_version Installed!"
 		#=========================================================
 	else
@@ -53,7 +51,6 @@ else
 		clear
 		echo "Renaming $proton_ge_version To ProtonLatest"
 		mv "$proton_folder/$proton_ge_version" "$proton_folder/ProtonLatest"
-		clear
 		echo "$proton_ge_version Installed!"
 		#=======================================
 	fi
