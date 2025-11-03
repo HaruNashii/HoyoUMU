@@ -33,7 +33,6 @@ else
 					echo "So, bye bye o/"
 					kill $PPID
 					kill $$
-					break
 					;;
 				* )
 					echo "❌ Invalid input. Please enter 'y' or 'n'."

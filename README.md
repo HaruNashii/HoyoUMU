@@ -36,6 +36,8 @@
 ✅ Completely **uninstall** without remaining any traces with the `uninstall.sh` script
 <br/>
 ✅ Check **UMU** availability and if it exist copy it to the right place with the `check_umu.sh` script
+<br/>
+✅ Optionally runs all your games with **Feral Gamemode** for a very smooth experience
 
 ---
 
@@ -48,6 +50,7 @@
 | Dependency                                                  | Description                                           | Default Availability                |
 | ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
 | [UMU](https://github.com/Open-Wine-Components/umu-launcher) | UMU is a unified launcher for Windows games on Linux. | Must be installed manually          |
+| [Gamemode](https://github.com/FeralInteractive/gamemode/)   | Optimise Linux system performance on demand .         | Must be installed manually          |
 | `curl`                                                      | Fetches downloads                                     | Pre-installed on most Linux distros |
 | `tar`                                                       | Extracts Proton-GE archives                           | Pre-installed on most Linux distros |
 
@@ -95,22 +98,11 @@ chmod a+x install.sh && ./install.sh
 <br/>
 <br/>
 
-## 🧩 To-Do
-
-* [ ] Enable **Feral Gamemode** for performance boost
-* [ ] Add error handling for network failures
-
----
-
-<br/>
-<br/>
-<br/>
-
 ## 🙌 Credits
 
 * 🧩 [UMU Launcher](https://github.com/Open-Wine-Components/umu-launcher)
-* 🥚 [Proton-GE Custom](https://github.com/GloriousEggroll/proton-ge-custom)
-
+* ⚙️ [Proton-GE Custom](https://github.com/GloriousEggroll/proton-ge-custom)
+* 🔥 [Feral Gamemode](https://github.com/FeralInteractive/gamemode)
 ---
 
 <br/>
