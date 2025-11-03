@@ -6,18 +6,6 @@
 
 <br/>
 <br/>
-<br/>
-
-## ⚠️ Requirements
-
-> **Important:**
-> You must have [`umu-run`](https://github.com/Open-Wine-Components/umu-launcher) installed and located at `/usr/bin/umu-run` before running this script.
-
----
-
-<br/>
-<br/>
-<br/>
 
 ## 🧪 Games Tested
 - ✅ Genshin Impact (Runned Without Any Flaws)
@@ -27,7 +15,6 @@
 
 ---
 
-<br/>
 <br/>
 <br/>
 
@@ -55,7 +42,6 @@
 
 <br/>
 <br/>
-<br/>
 
 ## 📦 Dependencies
 
@@ -68,7 +54,6 @@
 
 ---
 
-<br/>
 <br/>
 <br/>
 
@@ -90,7 +75,6 @@ chmod a+x install.sh && ./install.sh
 
 <br/>
 <br/>
-<br/>
 
 ## 📁 Installation Paths
 
@@ -108,7 +92,6 @@ chmod a+x install.sh && ./install.sh
 
 <br/>
 <br/>
-<br/>
 
 ## 👾 known Issues
 - White bars in the border of the launcher
@@ -116,7 +99,6 @@ chmod a+x install.sh && ./install.sh
 
 ---
 
-<br/>
 <br/>
 <br/>
 
@@ -127,7 +109,6 @@ chmod a+x install.sh && ./install.sh
 * 🔥 [Feral Gamemode](https://github.com/FeralInteractive/gamemode)
 ---
 
-<br/>
 <br/>
 <br/>
 
