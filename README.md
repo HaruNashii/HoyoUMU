@@ -96,6 +96,7 @@ chmod a+x install.sh && ./install.sh
 ## 👾 known Issues
 - White bars in the border of the launcher
 - Launcher flickering black some times
+- Tray options not working when the app is open
 
 ---
 
