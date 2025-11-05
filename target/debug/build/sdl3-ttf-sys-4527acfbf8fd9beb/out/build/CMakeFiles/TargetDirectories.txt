@@ -1,9 +1,0 @@
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/SDL3_ttf-shared.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/package.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/package_source.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/edit_cache.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/rebuild_cache.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/list_install_components.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/install.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/install/local.dir
-/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build/CMakeFiles/install/strip.dir
