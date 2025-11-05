@@ -1,0 +1,15 @@
+CMake Warning at cmake/sdlchecks.cmake:123 (message):
+  Unable to find the alsa development library
+Call Stack (most recent call first):
+  CMakeLists.txt:1583 (CheckALSA)
+
+
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    CMAKE_ASM_COMPILER
+    CMAKE_ASM_FLAGS
+    CMAKE_CXX_COMPILER
+    CMAKE_CXX_FLAGS
+
+

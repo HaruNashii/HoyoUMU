@@ -1,0 +1,10 @@
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/libSDL3_image.so.0.2.4
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/libSDL3_image.so.0
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/libSDL3_image.so
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/include/SDL3_image/SDL_image.h
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/cmake/SDL3_image/SDL3_imageConfig.cmake
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/cmake/SDL3_image/SDL3_imageConfigVersion.cmake
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/cmake/SDL3_image/SDL3_image-shared-targets.cmake
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/cmake/SDL3_image/SDL3_image-shared-targets-debug.cmake
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/lib64/pkgconfig/sdl3-image.pc
+/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-image-sys-2cd29e3a8730c177/out/share/licenses/SDL3_image/LICENSE.txt

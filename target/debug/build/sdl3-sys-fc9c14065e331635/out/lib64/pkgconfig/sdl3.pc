@@ -1,0 +1,14 @@
+prefix=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-sys-fc9c14065e331635/out
+exec_prefix=${prefix}
+libdir=${prefix}/lib64
+includedir=${prefix}/include
+
+Name: sdl3
+Description: Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.
+URL: https://www.libsdl.org/
+Version: 3.2.20
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} -Wl,-rpath,${libdir} -Wl,--enable-new-dtags -lSDL3 
+Libs.private: -pthread -lm
+Cflags: -I${includedir} 

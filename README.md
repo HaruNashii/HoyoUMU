@@ -1,6 +1,6 @@
 # 🎮 HoyoUMU
 
-**HoyoUMU** is a simple shell script that **downloads and sets up HoYoPlay using UMU and Proton-GE** automatically — no manual tinkering required.
+**HoyoUMU** is a application built in rust that **downloads and sets up HoYoPlay using UMU and Proton-GE** automatically — no manual tinkering required.
 
 ---
 
@@ -11,7 +11,7 @@
 - ✅ Genshin Impact (Runned Without Any Flaws)
 - ✅ Zenless Zone Zero (Runned Without Any Flaws)
 - ❌ Honkai Star Rail (Currently Borked/Not Working)
-- ❌ Honkai Impact 3rd (Borked Because of anti-cheat)
+- ❌ Honkai Impact 3rd (Currently Borked Because of anti-cheat)
 
 ---
 
@@ -28,13 +28,11 @@
 <br/>
 ✅ Creates a working **.desktop launcher** for easy access
 <br/>
-✅ Configures **UMU** with my personal `hoyoumu.py` setup to guarantee an smooth adventure
+✅ Configures **UMU** with my personal [hoyoumu.py](https://github.com/HaruNashii/HoyoUMU/blob/script_version/assets/hoyoumu.py) setup to guarantee an smooth adventure
 <br/>
-✅ Update **Proton-GE** to the latest version anytime with the `update_proton.sh` script
+✅ Update **Proton-GE** to the latest version anytime
 <br/>
-✅ Completely **uninstall** without remaining any traces with the `uninstall.sh` script
-<br/>
-✅ Check **UMU** availability and if it exist copy it to the right place with the `check_umu.sh` script
+✅ Completely **uninstall** without remaining any traces
 <br/>
 ✅ Optionally runs all your games with **Feral Gamemode** for a very smooth experience
 
@@ -43,14 +41,21 @@
 <br/>
 <br/>
 
-## 📦 Dependencies
+## 📦 Dependencies - Normal/Gui Version
 
-| Dependency                                                  | Description                                           | Default Availability                |
-| ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------- |
-| [UMU](https://github.com/Open-Wine-Components/umu-launcher) | UMU is a unified launcher for Windows games on Linux  | Must be installed manually          |
-| [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand  | Must be installed manually          |
-| `curl`                                                      | Fetches downloads                                     | Pre-installed on most Linux distros |
-| `tar`                                                       | Extracts Proton-GE archives                           | Pre-installed on most Linux distros |
+| Dependency - Normal/Gui Version                                      | Description                                            | Default Availability                |
+| -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
+| [UMU](https://github.com/Open-Wine-Components/umu-launcher)          | UMU is a unified launcher for Windows games on Linux   | Must be installed manually          |
+| [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand            | Must be installed manually          |
+| [Cantarell](https://fonts.google.com/specimen/Cantarell) [OPTIONAL]  | An very modern and sleek font used by default on GNOME | Must be installed manually          |
+
+
+| Dependency - Bash/Shell Script Version                               | Description                                            | Default Availability                |
+| -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
+| [UMU](https://github.com/Open-Wine-Components/umu-launcher)          | UMU is a unified launcher for Windows games on Linux   | Must be installed manually          |
+| [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand            | Must be installed manually          |
+| `curl`                                                               | Fetches downloads                                      | Pre-installed on most Linux distros |
+| `tar`                                                                | Extracts Proton-GE archives                            | Pre-installed on most Linux distros |
 
 ---
 
@@ -58,18 +63,15 @@
 <br/>
 
 ## 🚀 Installation
+1. Download the Latest Version In The [Releases Page](https://github.com/HaruNashii/HoyoUMU/releases)
+2. Give It Permission To Run With: ```chmod a+x rwx /path/to/application"``` (Replace "/path/to/application", with the application location, probabily like: /home/username/Downloads/application_here)
+2. Run The App And Enjoy :).
 
-Clone the repository and navigate to it:
-
+or if your prefer download with just one command, you can just run the following commands to download HoyoUMU as an bash script: 
 ```bash
-git clone https://github.com/HaruNashii/HoyoUMU.git && cd HoyoUMU
+git clone --branch script_version --single-branch https://github.com/HaruNashii/HoyoUMU.git && cd HoyoUMU && chmod a+x install.sh && ./install.sh
 ```
 
-Grant execution permission and run the installer:
-
-```bash
-chmod a+x install.sh && ./install.sh
-```
 
 ---
 
@@ -80,13 +82,13 @@ chmod a+x install.sh && ./install.sh
 
 | Component               | Path                                                                             |
 | ----------------------- | -------------------------------------------------------------------------------- |
-| **HoYoPlay Icon**       | `/usr/share/icons/hicolor/256x256/apps/hoyoplay_icon.png`                        |
+| **HoYoPlay Icon**       | `~/.config/hoyoplay-umu/assets/hoyoplay_icon.png`                                |
 | **HoYoPlay Games**      | `~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/games/`       |
 | **HoYoPlay Executable** | `~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe` |
 | **HoYoPlay Installer**  | `~/.config/hoyoplay-umu/Hoyoplay_setup.exe`                                      |
-| **Proton-GE Build**     | `~/.config/hoyoplay-umu/Proton-GE_Latest`                                        |
+| **Proton-GE Build**     | `~/.config/hoyoplay-umu/ProtonLatest`                                            |
+| **UMU Config File**     | `~/.config/hoyoplay-umu/umu_config/umu_config.toml`                                 |
 | **Desktop Shortcut**    | `~/.local/share/applications/Hoyoplay.desktop`                                   |
-| **UMU Config File**     | `/usr/share/hoyoplay_umu_config/umu_config.toml`                                 |
 
 ---
 

@@ -1,0 +1,77 @@
+CMAKE_TOOLCHAIN_FILE_x86_64-unknown-linux-gnu = None
+CMAKE_TOOLCHAIN_FILE_x86_64_unknown_linux_gnu = None
+HOST_CMAKE_TOOLCHAIN_FILE = None
+CMAKE_TOOLCHAIN_FILE = None
+CMAKE_GENERATOR_x86_64-unknown-linux-gnu = None
+CMAKE_GENERATOR_x86_64_unknown_linux_gnu = None
+HOST_CMAKE_GENERATOR = None
+CMAKE_GENERATOR = None
+CMAKE_PREFIX_PATH_x86_64-unknown-linux-gnu = None
+CMAKE_PREFIX_PATH_x86_64_unknown_linux_gnu = None
+HOST_CMAKE_PREFIX_PATH = None
+CMAKE_PREFIX_PATH = None
+CMAKE_x86_64-unknown-linux-gnu = None
+CMAKE_x86_64_unknown_linux_gnu = None
+HOST_CMAKE = None
+CMAKE = None
+running: cd "/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build" && CMAKE_PREFIX_PATH="" LC_ALL="C" "cmake" "/home/beth/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sdl3-ttf-src-3.2.3/SDL_ttf" "-DSDL3_DIR=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-sys-fc9c14065e331635/out/lib64/cmake/SDL3" "-DSDLTTF_SAMPLES=OFF" "-DCMAKE_INSTALL_PREFIX=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out" "-DCMAKE_C_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_C_COMPILER=/usr/bin/cc" "-DCMAKE_CXX_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_CXX_COMPILER=/usr/bin/c++" "-DCMAKE_ASM_FLAGS= -ffunction-sections -fdata-sections -fPIC -m64" "-DCMAKE_ASM_COMPILER=/usr/bin/cc" "-DCMAKE_BUILD_TYPE=Debug"
+-- The C compiler identification is GNU 15.2.1
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring SDL3_ttf 3.2.2
+-- Detecting Target CPU Architecture
+-- Detecting Target CPU Architecture - X64
+-- Looking for __GLIBC__
+-- Looking for __GLIBC__ - found
+-- Performing Test HAVE_WL_NO_UNDEFINED
+-- Performing Test HAVE_WL_NO_UNDEFINED - Success
+-- Performing Test LINKER_SUPPORTS_VERSION_SCRIPT
+-- Performing Test LINKER_SUPPORTS_VERSION_SCRIPT - Success
+-- Found harfbuzz: /usr/lib64/libharfbuzz.so (found suitable version "11.5.1", minimum required is "2.3.1")
+-- SDL3_ttf: Using system harfbuzz library
+-- SDL3_ttf: Using system freetype library
+-- Found Freetype: /usr/lib64/libfreetype.so (found version "2.13.3")
+-- Could NOT find plutovg (missing: plutovg_LIBRARY plutovg_INCLUDE_PATH) 
+-- Could NOT find plutosvg (missing: plutosvg_LIBRARY plutosvg_INCLUDE_PATH plutovg_FOUND) 
+-- plutosvg NOT found
+-- SDL3_ttf backends:
+-- - enabled:  harfbuzz freetype
+-- - disabled: plutosvg
+-- Configuring done (0.4s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build
+running: cd "/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build" && LC_ALL="C" MAKEFLAGS="-j --jobserver-fds=8,9 --jobserver-auth=8,9" "cmake" "--build" "/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/build" "--target" "install" "--config" "Debug"
+[ 28%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_renderer_textengine.c.o
+[ 28%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_hashtable_ttf.c.o
+[ 42%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_hashtable.c.o
+[ 57%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_gpu_textengine.c.o
+[ 71%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_surface_textengine.c.o
+[ 85%] Building C object CMakeFiles/SDL3_ttf-shared.dir/src/SDL_ttf.c.o
+[100%] Linking C shared library libSDL3_ttf.so
+[100%] Built target SDL3_ttf-shared
+Install the project...
+-- Install configuration: "Debug"
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/libSDL3_ttf.so.0.2.2
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/libSDL3_ttf.so.0
+-- Set non-toolchain portion of runtime path of "/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/libSDL3_ttf.so.0.2.2" to ""
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/libSDL3_ttf.so
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/include/SDL3_ttf/SDL_textengine.h
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/include/SDL3_ttf/SDL_ttf.h
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/SDL3_ttfConfig.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/SDL3_ttfConfigVersion.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/PkgConfigHelper.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/Findharfbuzz.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/Findplutosvg.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/Findplutovg.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/SDL3_ttf-shared-targets.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf/SDL3_ttf-shared-targets-debug.cmake
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/pkgconfig/sdl3-ttf.pc
+-- Installing: /home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/share/licenses/SDL3_ttf/LICENSE.txt
+cargo:root=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out
+cargo::metadata=OUT_DIR=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out
+cargo::metadata=CMAKE_DIR=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64/cmake/SDL3_ttf
+cargo::rustc-link-search=native=/home/beth/Code/rust/HoyoUMU/target/debug/build/sdl3-ttf-sys-4527acfbf8fd9beb/out/lib64
+cargo::rustc-link-lib=SDL3_ttf
