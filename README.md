@@ -62,7 +62,7 @@
 Clone the repository and navigate to it:
 
 ```bash
-git clone https://github.com/HaruNashii/HoyoUMU.git && cd HoyoUMU
+git clone --branch script_version --single-branch https://github.com/HaruNashii/HoyoUMU.git && cd HoyoUMU
 ```
 
 Grant execution permission and run the installer:
