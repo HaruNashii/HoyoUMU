@@ -43,7 +43,7 @@
 
 ## 📦 Dependencies - Normal/Gui Version
 
-| Dependency - Normal/Gui Version                                      | Description                                            | Default Availability                |
+| Dependency                                                           | Description                                            | Default Availability                |
 | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
 | [UMU](https://github.com/Open-Wine-Components/umu-launcher)          | UMU is a unified launcher for Windows games on Linux   | Must be installed manually          |
 | [SDL3](https://github.com/libsdl-org/SDL)                            | Simple DirectMedia Layer                               | Must be installed manually          |
@@ -52,8 +52,9 @@
 | [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand            | Must be installed manually          |
 | [Cantarell](https://fonts.google.com/specimen/Cantarell) [OPTIONAL]  | An very modern and sleek font used by default on GNOME | Must be installed manually          |
 
+## 📟 Dependencies - Bash/Shell Script Version
 
-| Dependency - Bash/Shell Script Version                               | Description                                            | Default Availability                |
+| Dependency                                                           | Description                                            | Default Availability                |
 | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
 | [UMU](https://github.com/Open-Wine-Components/umu-launcher)          | UMU is a unified launcher for Windows games on Linux   | Must be installed manually          |
 | [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand            | Must be installed manually          |
