@@ -46,6 +46,9 @@
 | Dependency - Normal/Gui Version                                      | Description                                            | Default Availability                |
 | -------------------------------------------------------------------- | ------------------------------------------------------ | ----------------------------------- |
 | [UMU](https://github.com/Open-Wine-Components/umu-launcher)          | UMU is a unified launcher for Windows games on Linux   | Must be installed manually          |
+| [SDL3](https://github.com/libsdl-org/SDL)                            | Simple DirectMedia Layer                               | Must be installed manually          |
+| [SDL3 TTF](https://github.com/libsdl-org/SDL_ttf)                    | Support for TrueType (.ttf) font files                 | Must be installed manually          |
+| [SDL3 IMAGE](https://github.com/libsdl-org/SDL_image)                | Image decoding for many popular format.                | Must be installed manually          |
 | [Gamemode](https://github.com/FeralInteractive/gamemode/) [OPTIONAL] | Optimise Linux system performance on demand            | Must be installed manually          |
 | [Cantarell](https://fonts.google.com/specimen/Cantarell) [OPTIONAL]  | An very modern and sleek font used by default on GNOME | Must be installed manually          |
 
