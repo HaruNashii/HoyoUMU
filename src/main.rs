@@ -1,7 +1,7 @@
 use crate::{
-    actions::buttons_actions::{DOWNLOADING_FLAG, button_action},
+    actions::buttons_actions::{button_action, DOWNLOADING_FLAG, DOWNLOAD_SUCCEEDED},
     system::setup_rps::populate_page_data,
-    ui::pages::{PageId, already_installed_pe}
+    ui::pages::{already_installed_pe, download_not_succeed_pe, download_not_succeed_proton_pe, download_succeed, downloading_pe, PageId}
 };
 use lazy_static::lazy_static;
 use rust_page_system::{
@@ -57,20 +57,61 @@ fn main()
     {
         //using (900 / your_refresh_rate) to a very crispy experience
         std::thread::sleep(Duration::from_millis(900 / get_monitor_refresh_rate()));
-        if let Some(install_flag) = unsafe { DOWNLOADING_FLAG }
-            && !install_flag
+
+        // === Debug ====
+        //page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
+        //page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
+        //page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
+        //page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
+        //page_data.forced_persistent_elements = Some(vec![download_not_succeed_pe()]);
+        //page_data.forced_persistent_elements = Some(vec![download_not_succeed_proton_pe()]);
+        //page_data.forced_persistent_elements = Some(vec![download_succeed(false)]);
+        //page_data.forced_persistent_elements = Some(vec![download_succeed(true)]);
+        // ==============
+
+        if let Some((downloading_flag, is_proton)) = unsafe{DOWNLOADING_FLAG}
         {
-            page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
-            unsafe { DOWNLOADING_FLAG = None };
-        };
-        if let Some(install_flag) = unsafe { DOWNLOADING_FLAG }
-        {
-            app_state.all_events_disable = install_flag
+            if downloading_flag && is_proton
+            {
+                page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
+                app_state.all_events_disable = downloading_flag;
+            }
+            if downloading_flag && !is_proton
+            {
+                page_data.forced_persistent_elements = Some(vec![downloading_pe(false)])
+            }
+            if !downloading_flag && is_proton
+            {
+                page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
+            }
+            if !downloading_flag && !is_proton
+            {
+                page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
+            }
         }
         else
         {
-            app_state.all_events_disable = false
+            app_state.all_events_disable = false;
         };
+
+        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && !download_succeeded && !is_proton
+        {
+            page_data.forced_persistent_elements = Some(vec![download_not_succeed_pe()]);
+        };
+
+        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && !download_succeeded && is_proton
+        {
+            page_data.forced_persistent_elements = Some(vec![download_not_succeed_proton_pe()]);
+        };
+
+        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && download_succeeded
+        {
+            page_data.forced_persistent_elements = Some(vec![download_succeed(is_proton)]);
+            unsafe { DOWNLOAD_SUCCEEDED = None };
+            unsafe { DOWNLOADING_FLAG = None };
+        };
+
+
         input_handler.handle_input(&mut window_modules.event_pump, &mut window_modules.clipboard_system, &mut page_data, &mut app_state, &mut button_action);
         app_state.update_window_size(renderer.canvas.window().size().0, renderer.canvas.window().size().1);
         page_data.create_current_page(&mut app_state);

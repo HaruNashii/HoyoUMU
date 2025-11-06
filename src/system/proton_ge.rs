@@ -4,11 +4,10 @@ use serde_json::Value;
 use std::{
     fs::{self, File},
     io::Cursor,
-    path::{Path, PathBuf} //process::Command
+    path::{Path, PathBuf} 
 };
 use tar::Archive;
-
-use crate::system::file_and_dirs::HOYOUMU_FILES;
+use crate::system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES};
 
 const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
 
@@ -100,9 +99,9 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
     let file_path = &HOYOUMU_FILES[4];
     if fs::exists(file_path).unwrap()
     {
-        let content = fs::read_to_string(file_path).expect("Failed to read file");
+        let content = fs::read_to_string(file_path).unwrap();
+
         // ===== Get string after the first space =====
-        // Example file content: "version Proton-9.17-GE-1"
         if let Some((_, after_space)) = content.split_once(' ')
         {
             let version_from_file = after_space.trim(); // remove extra spaces/newlines
@@ -115,11 +114,8 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
             else
             {
                 // ==== Remove ProtonLatest if existing version is older ====
-                if Path::new(file_path).exists()
-                {
-                    let _ = fs::remove_dir_all(file_path);
-                    println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
-                }
+                if fs::exists(&HOYOUMU_DIRS[1]).unwrap() { fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap(); };
+                println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
             }
         }
     }
@@ -127,12 +123,12 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
     {
         println!("⚠️ Valid Proton-GE Installation Not Found, Downloading New One...");
     }
-    false
+    false 
 }
 
 async fn download_online_data(client: Client, received_version: &String, received_url: &String)
 {
-    let file_path = &HOYOUMU_FILES[4];
+    let file_path = &HOYOUMU_DIRS[1];
 
     // ===== Read file content =====
     if check_if_latest_proton_ge_exist(Some(received_version))

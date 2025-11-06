@@ -15,9 +15,10 @@ use crate::{
     }
 };
 use rust_page_system::system::{page_system::PageData, state::AppState};
-use std::thread;
+use std::{thread, time::Duration};
 
-pub static mut DOWNLOADING_FLAG: Option<bool> = None;
+pub static mut DOWNLOADING_FLAG: Option<(bool, bool)> = None;
+pub static mut DOWNLOAD_SUCCEEDED: Option<(bool, bool)> = None;
 
 pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &ButtonId, page_data: &mut PageData<PageId, ButtonId>)
 {
@@ -28,29 +29,49 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
             if !check_if_github_api_is_available()
             {
                 page_data.forced_persistent_elements = Some(vec![github_api_unavailabe_pe()]);
-            }
-            else if check_if_hoyoplay_exist()
+                return;
+            };
+
+            if !check_if_latest_proton_ge_exist(None)
             {
-                page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
-            }
-            else
-            {
-                page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
-                thread::spawn(move || {
-                    println!("\n# ==== Install Button Clicked! ==== #");
-                    unsafe { DOWNLOADING_FLAG = Some(true) };
-                    let path_to_umu = check_umu();
-                    create_dirs();
-                    create_umu_config();
-                    create_proton_fixes();
+                page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
+                thread::spawn(move || 
+                {
+                    unsafe{DOWNLOADING_FLAG = Some((true, true))};
                     download_proton_ge();
-                    download_hoyoplay();
-                    download_icon();
-                    create_desktop_file(&path_to_umu);
-                    run_hoyoplay_setup(&path_to_umu);
-                    unsafe { DOWNLOADING_FLAG = Some(false) };
+                    unsafe{DOWNLOADING_FLAG = None};
+                    if !check_if_latest_proton_ge_exist(None)
+                    {
+                        unsafe { DOWNLOAD_SUCCEEDED = Some((false, true)) };
+                    } 
                 });
             };
+
+            page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
+            thread::spawn(move || 
+            {
+                while unsafe{ DOWNLOADING_FLAG == Some((true, true)) } { thread::sleep(Duration::from_millis(250))};
+                println!("\n# ==== Install Button Clicked! ==== #");
+                unsafe { DOWNLOAD_SUCCEEDED = None };
+                unsafe { DOWNLOADING_FLAG = Some((true, false)) };
+                let path_to_umu = check_umu();
+                create_dirs();
+                create_umu_config();
+                create_proton_fixes();
+                download_hoyoplay();
+                download_icon();
+                create_desktop_file(&path_to_umu);
+                run_hoyoplay_setup(&path_to_umu);
+                unsafe { DOWNLOADING_FLAG = Some((false, false)) };
+                if !check_if_hoyoplay_exist()
+                {
+                    unsafe { DOWNLOAD_SUCCEEDED = Some((false, false)) };
+                }
+                else
+                {
+                    unsafe { DOWNLOAD_SUCCEEDED = Some((true, false)) };
+                }
+            });
         };
         if &ButtonId::Update == button_id
         {
@@ -65,11 +86,20 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
             else
             {
                 page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
-                thread::spawn(move || {
+                thread::spawn(move || 
+                {
+                    unsafe{DOWNLOADING_FLAG = Some((true, true))};
                     println!("\n# ==== Update Button Clicked! ==== #");
-                    unsafe { DOWNLOADING_FLAG = Some(true) };
                     download_proton_ge();
-                    unsafe { DOWNLOADING_FLAG = Some(false) };
+                    unsafe{DOWNLOADING_FLAG = None};
+                    if check_if_latest_proton_ge_exist(None)
+                    {
+                        unsafe{DOWNLOAD_SUCCEEDED = Some((true, true))};
+                    }
+                    else
+                    {
+                        unsafe{DOWNLOAD_SUCCEEDED = Some((false, true))};
+                    };
                 });
             }
         };
@@ -92,6 +122,8 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         if &ButtonId::ConfirmPopUP == button_id
         {
             page_data.forced_persistent_elements = None;
+            unsafe { DOWNLOAD_SUCCEEDED = None };
+            unsafe { DOWNLOADING_FLAG = None };
         };
     }
 }
