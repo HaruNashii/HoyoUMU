@@ -1,7 +1,7 @@
 use crate::{
-    actions::buttons_actions::{DOWNLOADING_FLAG, button_action},
+    actions::buttons_actions::{button_action, DOWNLOADING_FLAG},
     system::setup_rps::populate_page_data,
-    ui::pages::{PageId, already_installed_pe}
+    ui::pages::{already_installed_pe, PageId}
 };
 use lazy_static::lazy_static;
 use rust_page_system::{

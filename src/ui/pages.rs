@@ -29,6 +29,25 @@ pub enum ButtonId
     ConfirmPopUP
 }
 
+pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
+{
+    let centered_rect = get_center((300, 300), (350, 450));
+    //===================== rects =========================
+    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+
+    let centered_button = get_center((200, 60), (350, 450));
+    //===================== buttons =========================
+    let all_buttons = vec![Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 100, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }];
+
+    //===================== texts =========================
+    let all_texts = vec!
+    [
+        (16.0, (55, 180), "Sorry, Github API Is Not Available \n            Please Try Again Later!!!".to_string(), TEXT_COLOR),
+        (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay :(".to_string(), TEXT_COLOR)
+    ];
+
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
+}
 
 pub fn downloading_pe(downloading_proton: bool) -> PersistentElements<PageId, ButtonId>
 {
@@ -60,7 +79,7 @@ pub fn already_installed_pe(is_proton: bool) -> PersistentElements<PageId, Butto
     let mut all_text = vec![(25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay!!!".to_string(), TEXT_COLOR)];
     if is_proton
     {
-        all_text.push((18.0, (32, 200), "Your Proton-GE Version Is Already\n                        The Latest!!!".to_string(), TEXT_COLOR));
+        all_text.push((18.0, (32, 180), "Your Proton-GE Version Is Already\n                        The Latest!!!".to_string(), TEXT_COLOR));
     }
     else
     {

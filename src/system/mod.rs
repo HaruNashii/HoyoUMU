@@ -6,3 +6,4 @@ pub mod hoyoplay;
 pub mod proton_ge;
 pub mod setup_rps;
 pub mod umu;
+pub mod github_api;
