@@ -40,11 +40,7 @@ pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
     let all_buttons = vec![Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 100, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }];
 
     //===================== texts =========================
-    let all_texts = vec!
-    [
-        (16.0, (55, 180), "Sorry, Github API Is Not Available \n            Please Try Again Later!!!".to_string(), TEXT_COLOR),
-        (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay :(".to_string(), TEXT_COLOR)
-    ];
+    let all_texts = vec![(16.0, (55, 180), "Sorry, Github API Is Not Available \n            Please Try Again Later!!!".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay :(".to_string(), TEXT_COLOR)];
 
     PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
