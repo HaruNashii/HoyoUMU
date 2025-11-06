@@ -47,9 +47,6 @@ pub async fn check_if_github_api_is_available() -> bool
         }
         Err(e) if e.to_string().contains("Rate limit exceeded") =>
         {
-            eprintln!("❌ Rate limit reached! Switching logic...");
-            // handle rate limit here, e.g.:
-            // use fallback token, cached data, or skip
             return false;
         }
         Err(e) =>
