@@ -1,8 +1,8 @@
 pub mod create_desktop_file;
 pub mod create_protonfixes;
 pub mod download_icon;
-pub mod proton_ge;
 pub mod file_and_dirs;
 pub mod hoyoplay;
+pub mod proton_ge;
 pub mod setup_rps;
 pub mod umu;

@@ -1,9 +1,16 @@
 use crate::{
     system::{
-        create_desktop_file::create_desktop_file, create_protonfixes::create_proton_fixes, download_icon::download_icon, file_and_dirs::{create_dirs, remove_dirs, remove_files}, hoyoplay::{check_if_hoyoplay_exist, download_hoyoplay, run_hoyoplay_setup}, proton_ge::{check_if_latest_proton_ge_exist, download_proton_ge}, umu::{check_umu, create_umu_config}
+        create_desktop_file::create_desktop_file,
+        create_protonfixes::create_proton_fixes,
+        download_icon::download_icon,
+        file_and_dirs::{create_dirs, remove_dirs, remove_files},
+        hoyoplay::{check_if_hoyoplay_exist, download_hoyoplay, run_hoyoplay_setup},
+        proton_ge::{check_if_latest_proton_ge_exist, download_proton_ge},
+        umu::{check_umu, create_umu_config}
     },
     ui::pages::{
-        already_installed_pe, downloading_pe, ButtonId::{self}, PageId
+        ButtonId::{self},
+        PageId, already_installed_pe, downloading_pe
     }
 };
 use rust_page_system::system::{page_system::PageData, state::AppState};
@@ -21,7 +28,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
             {
                 page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
             }
-            else 
+            else
             {
                 page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
                 thread::spawn(move || {
@@ -46,7 +53,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
             {
                 page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
             }
-            else 
+            else
             {
                 page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
                 thread::spawn(move || {
@@ -77,6 +84,5 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         {
             page_data.forced_persistent_elements = None;
         };
-    
     }
 }

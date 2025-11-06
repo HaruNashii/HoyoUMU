@@ -1,4 +1,4 @@
-use crate::ui::pages::{are_you_sure_page, main_page, ButtonId, PageId};
+use crate::ui::pages::{ButtonId, PageId, are_you_sure_page, main_page};
 use rust_page_system::system::page_system::PageData;
 use std::rc::Rc;
 

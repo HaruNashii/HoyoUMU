@@ -37,12 +37,10 @@ async fn get_online_data(response: &str) -> (String, String, String)
         for asset in assets
         {
             if let Some(name) = asset["name"].as_str()
+                && name.ends_with(".tar.gz")
             {
-                if name.ends_with(".tar.gz")
-                {
-                    received_name = name.to_string();
-                    received_version = name.replace(".tar.gz", "");
-                }
+                received_name = name.to_string();
+                received_version = name.replace(".tar.gz", "");
             }
         }
     }
@@ -54,11 +52,9 @@ async fn get_online_data(response: &str) -> (String, String, String)
         for asset in assets
         {
             if let Some(url) = asset["browser_download_url"].as_str()
+                && url.ends_with(".tar.gz")
             {
-                if url.ends_with(".tar.gz")
-                {
-                    received_url = url.to_string();
-                }
+                received_url = url.to_string();
             }
         }
     }
@@ -92,11 +88,9 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
             for asset in assets
             {
                 if let Some(name) = asset["name"].as_str()
+                    && name.ends_with(".tar.gz")
                 {
-                    if name.ends_with(".tar.gz")
-                    {
-                        received_version = name.replace(".tar.gz", "");
-                    }
+                    received_version = name.replace(".tar.gz", "");
                 }
             }
         }
@@ -112,7 +106,7 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
         if let Some((_, after_space)) = content.split_once(' ')
         {
             let version_from_file = after_space.trim(); // remove extra spaces/newlines
-                                                        // ===== Compare with another string =====
+            // ===== Compare with another string =====
             if version_from_file == received_version
             {
                 println!("✅ Your Proton-GE Version: '{}' Is Already The Latest", received_version);
@@ -141,7 +135,10 @@ async fn download_online_data(client: Client, received_version: &String, receive
     let file_path = &HOYOUMU_FILES[4];
 
     // ===== Read file content =====
-    if check_if_latest_proton_ge_exist(Some(received_version)) { return; };
+    if check_if_latest_proton_ge_exist(Some(received_version))
+    {
+        return;
+    };
 
     // ==== Download tarball ====
     let archive_path = format!("{}/{}", TMPWORKINGDIRECTORY, "ProtonLatest.tar.gz");

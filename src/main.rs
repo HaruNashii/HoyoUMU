@@ -1,20 +1,18 @@
 use crate::{
-    actions::buttons_actions::{button_action, DOWNLOADING_FLAG},
+    actions::buttons_actions::{DOWNLOADING_FLAG, button_action},
     system::setup_rps::populate_page_data,
-    ui::pages::{already_installed_pe, PageId}
+    ui::pages::{PageId, already_installed_pe}
 };
 use lazy_static::lazy_static;
 use rust_page_system::{
-    list_embedded,
-    include_project_assets,
+    Renderer, include_project_assets, list_embedded,
     system::{
         input_handler::InputHandler,
         page_system::PageData,
         renderer::RendererConfig,
         state::AppState,
-        window::{create_window, get_monitor_refresh_rate, WindowConfig}
-    },
-    Renderer
+        window::{WindowConfig, create_window, get_monitor_refresh_rate}
+    }
 };
 
 use include_dir::Dir;
@@ -23,8 +21,7 @@ pub static ASSETS: Dir = include_project_assets!();
 use sdl3::sys::render::SDL_LOGICAL_PRESENTATION_DISABLED;
 use std::{env, time::Duration};
 
-lazy_static! 
-{
+lazy_static! {
     pub static ref HOME_DIR: String = env::home_dir().unwrap().display().to_string();
 }
 
@@ -51,16 +48,7 @@ fn main()
     let mut input_handler = InputHandler::new(false);
     let mut app_state = AppState::new(PageId::MainPage, window_modules.canvas.window().size(), window_modules.stretch_mode_status);
     let mut page_data = PageData::new(&app_state);
-    let renderer_config = RendererConfig 
-    { 
-        canvas: window_modules.canvas, 
-        texture_creator: &window_modules.texture_creator, 
-        ttf_context: &window_modules.ttf_context, 
-        font_path: &window_modules.font_path, 
-        decrease_color_when_selected: Some((25, 25, 25)), 
-        selection_color: Some((0, 0, 200, 125)), 
-        assets_dir: Some(&ASSETS)
-    };
+    let renderer_config = RendererConfig { canvas: window_modules.canvas, texture_creator: &window_modules.texture_creator, ttf_context: &window_modules.ttf_context, font_path: &window_modules.font_path, decrease_color_when_selected: Some((25, 25, 25)), selection_color: Some((0, 0, 200, 125)), assets_dir: Some(&ASSETS) };
     let mut renderer = Renderer::new(renderer_config);
 
     populate_page_data(&mut page_data);
@@ -69,12 +57,20 @@ fn main()
     {
         //using (900 / your_refresh_rate) to a very crispy experience
         std::thread::sleep(Duration::from_millis(900 / get_monitor_refresh_rate()));
-        if let Some(install_flag) = unsafe{DOWNLOADING_FLAG} && install_flag == false
+        if let Some(install_flag) = unsafe { DOWNLOADING_FLAG }
+            && !install_flag
         {
             page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
-            unsafe{DOWNLOADING_FLAG = None};
+            unsafe { DOWNLOADING_FLAG = None };
         };
-        if let Some(install_flag) = unsafe{DOWNLOADING_FLAG} { app_state.all_events_disable = install_flag } else { app_state.all_events_disable = false };
+        if let Some(install_flag) = unsafe { DOWNLOADING_FLAG }
+        {
+            app_state.all_events_disable = install_flag
+        }
+        else
+        {
+            app_state.all_events_disable = false
+        };
         input_handler.handle_input(&mut window_modules.event_pump, &mut window_modules.clipboard_system, &mut page_data, &mut app_state, &mut button_action);
         app_state.update_window_size(renderer.canvas.window().size().0, renderer.canvas.window().size().1);
         page_data.create_current_page(&mut app_state);
