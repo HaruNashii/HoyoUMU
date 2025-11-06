@@ -25,7 +25,7 @@ pub fn check_umu() -> String
     {
         if Path::new(candidate).exists() 
         {
-            println!("✅ '{}' exists in {} | Checked With Candidate", app_name, candidate.to_string());
+            println!("✅ '{}' exists in {} | Checked With Candidate", app_name, candidate);
             return candidate.to_string();
         }
     }
@@ -38,7 +38,7 @@ pub fn check_umu() -> String
             let full_path = path.join(app_name);
             if Path::new(&full_path).exists()
             {
-                println!("✅ '{}' exists in {} | Checked With PATH", app_name, full_path.display().to_string());
+                println!("✅ '{}' exists in {} | Checked With PATH", app_name, full_path.display());
                 return full_path.display().to_string();
             }
         }
