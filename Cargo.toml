@@ -3,7 +3,6 @@ name = "Hoyoumu"
 version = "0.1.0"
 edition = "2021"
 
-
 [profile.dev]
 incremental = true
 
@@ -13,7 +12,7 @@ incremental = false
 [dependencies]
 fontconfig = "0.10.0"
 sdl3 = { version = "0.16.1", features = ["build-from-source", "ttf"] }
-rust_page_system = "0.2.9"
+rust_page_system = "0.3.2"
 lazy_static = "1.5.0"
 reqwest = { version = "0.12.24", features = ["json", "rustls-tls", "stream"] }
 serde_json = "1.0.145"
@@ -22,3 +21,4 @@ tar = "0.4.44"
 flate2 = "1.1.5"
 bytes = "1.10.1"
 indoc = "2.0.7"
+include_dir = "0.7.4"

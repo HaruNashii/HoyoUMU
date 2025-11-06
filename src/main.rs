@@ -5,6 +5,7 @@ use crate::{
 };
 use lazy_static::lazy_static;
 use rust_page_system::{
+    include_project_assets,
     system::{
         input_handler::InputHandler,
         page_system::PageData,
@@ -14,10 +15,15 @@ use rust_page_system::{
     },
     Renderer
 };
+
+use include_dir::Dir;
+pub static ASSETS: Dir = include_project_assets!();
+
 use sdl3::sys::render::SDL_LOGICAL_PRESENTATION_DISABLED;
 use std::{env, time::Duration};
 
-lazy_static! {
+lazy_static! 
+{
     pub static ref HOME_DIR: String = env::home_dir().unwrap().display().to_string();
 }
 
@@ -27,10 +33,10 @@ pub mod ui;
 
 fn main()
 {
-    let icon_dir = format!("{}/.local/share/icons/hoyoumu_icon.bmp", *HOME_DIR).replace(" ", "");
+    //list_embedded(&ASSETS);
     let window_config = WindowConfig {
         window_title: "AdvancedExample".to_string(),
-        icon: (true, Some(icon_dir)),
+        icon: (Some("icons/hoyoumu_icon.bmp".to_string()), Some(&ASSETS)),
         // Recommended to start with 16:9 aspect ratio
         start_window_size: (350, 450),
         // Recommended to have minimum size with 16:9 aspect ratio
