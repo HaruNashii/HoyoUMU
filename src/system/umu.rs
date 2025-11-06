@@ -1,13 +1,36 @@
-use crate::system::file_and_dirs::HOYOUMU_FILES;
+use crate::{system::file_and_dirs::HOYOUMU_FILES, HOME_DIR};
 use indoc::indoc;
+use lazy_static::lazy_static;
 use std::{env, fs, path::Path};
+
+lazy_static! 
+{
+    pub static ref UMU_RUN_PATHS: [String; 7] = 
+    [
+        format!("{}/.cargo/bin/umu-run", *HOME_DIR),
+        format!("{}/.local/bin/umu-run", *HOME_DIR),
+        "/usr/bin/umu-run".to_string(),
+        "/usr/local/bin/umu-run".to_string(),
+        "/home/beth/.cargo/bin/umu-run".to_string(),
+        "/usr/local/bin/umu-run".to_string(),
+        "/usr/bin/umu-run".to_string()
+    ];
+}
 
 pub fn check_umu() -> String
 {
     let app_name = "umu-run";
-    let mut found = false;
-    let mut path_found = String::new();
+    // 1. iterate through our known locations
+    for candidate in &*UMU_RUN_PATHS 
+    {
+        if Path::new(candidate).exists() 
+        {
+            println!("✅ '{}' exists in {} | Checked With Candidate", app_name, candidate.to_string());
+            return candidate.to_string();
+        }
+    }
 
+    // 2. use PATH to see if it exists
     if let Some(paths) = env::var_os("PATH")
     {
         for path in env::split_paths(&paths)
@@ -15,22 +38,13 @@ pub fn check_umu() -> String
             let full_path = path.join(app_name);
             if Path::new(&full_path).exists()
             {
-                found = true;
-                path_found = full_path.display().to_string();
-                break;
+                println!("✅ '{}' exists in {} | Checked With PATH", app_name, full_path.display().to_string());
+                return full_path.display().to_string();
             }
         }
     }
 
-    if found
-    {
-        println!("✅ '{}' exists in {}", app_name, path_found);
-        path_found
-    }
-    else
-    {
-        panic!("{app_name} is not installed, please install it first!!!");
-    }
+    panic!("{app_name} is not installed, please install it first!!!");
 }
 
 
