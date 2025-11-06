@@ -1,9 +1,8 @@
 pub mod create_desktop_file;
 pub mod create_protonfixes;
-pub mod download_hoyoplay;
 pub mod download_icon;
-pub mod download_proton_ge;
+pub mod proton_ge;
 pub mod file_and_dirs;
-pub mod run_hoyoplay_setup;
+pub mod hoyoplay;
 pub mod setup_rps;
 pub mod umu;

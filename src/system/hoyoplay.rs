@@ -1,7 +1,36 @@
 use crate::system::file_and_dirs::HOYOUMU_FILES;
+use std::{
+    fs,
+    path::Path,
+    process::{Command, Stdio}
+};
 use bytes::Bytes;
 use reqwest::Client;
-use std::fs;
+
+pub fn check_if_hoyoplay_exist() -> bool
+{
+    if fs::exists(Path::new(&HOYOUMU_FILES[8])).unwrap()
+    {
+        println!("✅ Hoyoplay is already installed!");
+        return true;
+    };
+    false
+}
+
+pub fn run_hoyoplay_setup(path_to_umu_run: &String)
+{
+    if check_if_hoyoplay_exist() { return };
+    let command_str = format!("{} {}", path_to_umu_run, &HOYOUMU_FILES[3]);
+    let hoyoplay_setup_status = Command::new("sh").arg("-c").arg(&command_str).stdout(Stdio::null()).stderr(Stdio::null()).status().expect("❌ Failed to execute Hoyoplay setup");
+    if hoyoplay_setup_status.success()
+    {
+        println!("✅ Hoyoplay setup executed successfully!");
+    }
+    else
+    {
+        eprintln!("⚠️ Hoyoplay setup exited with status: {:?}", hoyoplay_setup_status.code());
+    }
+}
 
 async fn setup_client_for_hoyoplay() -> Bytes
 {

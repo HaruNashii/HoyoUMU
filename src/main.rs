@@ -1,10 +1,11 @@
 use crate::{
-    actions::buttons_actions::{button_action, INSTALL_FLAG},
+    actions::buttons_actions::{button_action, DOWNLOADING_FLAG},
     system::setup_rps::populate_page_data,
-    ui::pages::PageId
+    ui::pages::{already_installed_pe, PageId}
 };
 use lazy_static::lazy_static;
 use rust_page_system::{
+    list_embedded,
     include_project_assets,
     system::{
         input_handler::InputHandler,
@@ -33,9 +34,9 @@ pub mod ui;
 
 fn main()
 {
-    //list_embedded(&ASSETS);
+    list_embedded(&ASSETS);
     let window_config = WindowConfig {
-        window_title: "AdvancedExample".to_string(),
+        window_title: "HoyoUMU".to_string(),
         icon: (Some("icons/hoyoumu_icon.bmp".to_string()), Some(&ASSETS)),
         // Recommended to start with 16:9 aspect ratio
         start_window_size: (350, 450),
@@ -50,7 +51,16 @@ fn main()
     let mut input_handler = InputHandler::new(false);
     let mut app_state = AppState::new(PageId::MainPage, window_modules.canvas.window().size(), window_modules.stretch_mode_status);
     let mut page_data = PageData::new(&app_state);
-    let renderer_config = RendererConfig { canvas: window_modules.canvas, texture_creator: &window_modules.texture_creator, ttf_context: &window_modules.ttf_context, font_path: &window_modules.font_path, decrease_color_when_selected: Some((25, 25, 25)), selection_color: Some((0, 0, 200, 125)) };
+    let renderer_config = RendererConfig 
+    { 
+        canvas: window_modules.canvas, 
+        texture_creator: &window_modules.texture_creator, 
+        ttf_context: &window_modules.ttf_context, 
+        font_path: &window_modules.font_path, 
+        decrease_color_when_selected: Some((25, 25, 25)), 
+        selection_color: Some((0, 0, 200, 125)), 
+        assets_dir: Some(&ASSETS)
+    };
     let mut renderer = Renderer::new(renderer_config);
 
     populate_page_data(&mut page_data);
@@ -59,7 +69,12 @@ fn main()
     {
         //using (900 / your_refresh_rate) to a very crispy experience
         std::thread::sleep(Duration::from_millis(900 / get_monitor_refresh_rate()));
-        unsafe { app_state.all_events_disable = INSTALL_FLAG };
+        if let Some(install_flag) = unsafe{DOWNLOADING_FLAG} && install_flag == false
+        {
+            page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
+            unsafe{DOWNLOADING_FLAG = None};
+        };
+        if let Some(install_flag) = unsafe{DOWNLOADING_FLAG} { app_state.all_events_disable = install_flag } else { app_state.all_events_disable = false };
         input_handler.handle_input(&mut window_modules.event_pump, &mut window_modules.clipboard_system, &mut page_data, &mut app_state, &mut button_action);
         app_state.update_window_size(renderer.canvas.window().size().0, renderer.canvas.window().size().1);
         page_data.create_current_page(&mut app_state);

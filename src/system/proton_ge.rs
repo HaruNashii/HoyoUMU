@@ -71,11 +71,39 @@ async fn get_online_data(response: &str) -> (String, String, String)
     panic!("No .tar.gz file found in the release.");
 }
 
-async fn download_online_data(client: Client, received_version: &String, received_url: &String)
+pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>) -> bool
 {
-    let file_path = &HOYOUMU_FILES[4];
+    let received_version = if let Some(result) = option_received_version
+    {
+        result
+    }
+    else
+    {
+        let rt = tokio::runtime::Runtime::new().unwrap();
+        let (_, response) = rt.block_on(setup_client_for_proton_ge());
 
-    // ===== Read file content =====
+        // Parse JSON
+        let json: Value = serde_json::from_str(&response).unwrap();
+
+        // Extract the file name of the .tar.gz asset
+        let mut received_version = String::new();
+        if let Some(assets) = json["assets"].as_array()
+        {
+            for asset in assets
+            {
+                if let Some(name) = asset["name"].as_str()
+                {
+                    if name.ends_with(".tar.gz")
+                    {
+                        received_version = name.replace(".tar.gz", "");
+                    }
+                }
+            }
+        }
+        &received_version.to_string()
+    };
+
+    let file_path = &HOYOUMU_FILES[4];
     if fs::exists(file_path).unwrap()
     {
         let content = fs::read_to_string(file_path).expect("Failed to read file");
@@ -88,14 +116,14 @@ async fn download_online_data(client: Client, received_version: &String, receive
             if version_from_file == received_version
             {
                 println!("✅ Your Proton-GE Version: '{}' Is Already The Latest", received_version);
-                return;
+                return true;
             }
             else
             {
                 // ==== Remove ProtonLatest if existing version is older ====
                 if Path::new(file_path).exists()
                 {
-                    fs::remove_dir_all(file_path).unwrap();
+                    let _ = fs::remove_dir_all(file_path);
                     println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
                 }
             }
@@ -105,6 +133,15 @@ async fn download_online_data(client: Client, received_version: &String, receive
     {
         println!("⚠️ Valid Proton-GE Installation Not Found, Downloading New One...");
     }
+    false
+}
+
+async fn download_online_data(client: Client, received_version: &String, received_url: &String)
+{
+    let file_path = &HOYOUMU_FILES[4];
+
+    // ===== Read file content =====
+    if check_if_latest_proton_ge_exist(Some(received_version)) { return; };
 
     // ==== Download tarball ====
     let archive_path = format!("{}/{}", TMPWORKINGDIRECTORY, "ProtonLatest.tar.gz");

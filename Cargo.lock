@@ -3,7 +3,7 @@
 version = 4
 
 [[package]]
-name = "Hoyoumu"
+name = "HoyoUMU"
 version = "0.1.0"
 dependencies = [
  "bytes",
@@ -1321,9 +1321,9 @@ checksum = "5a2d2f3481209a6b42eec2fbb49063fb4e8d35b57023401495d4fe0f85c817f0"
 
 [[package]]
 name = "rust_page_system"
-version = "0.3.2"
+version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9507de7d84c27ccbdb691c6487c38ade4a7f0678144c7de7fbd68fa1d288c911"
+checksum = "8f89cb56c8e510f97508ca2e66dd3abc17c84640f9b4a8a0657fdd5ffca7919a"
 dependencies = [
  "display-info",
  "fontconfig",
