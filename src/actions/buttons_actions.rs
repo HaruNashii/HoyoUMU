@@ -299,7 +299,15 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         }
         if &ButtonId::RetryAll == button_id
         {
+            *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
+            *HOYOPLAY_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
+            *HOYOPLAY_EXIST.lock().unwrap() = None;
             STAGE.store(2, Ordering::SeqCst);
+            DOWNLOADING_HOYOPLAY_SETUP.store(false, Ordering::SeqCst);
+            DOWNLOADING_HOYOPLAY.store(false, Ordering::SeqCst);
+            DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
+            DOWNLOADING_OTHERS.store(false, Ordering::SeqCst);
+            LOADING.store(false, Ordering::SeqCst);
             button_action(app_state, &ButtonId::Install, page_data);
         }
     }
