@@ -35,8 +35,7 @@ pub mod ui;
 fn main()
 {
     list_embedded(&ASSETS);
-    let window_config = WindowConfig 
-    {
+    let window_config = WindowConfig {
         window_title: "HoyoUMU".to_string(),
         icon: (Some("icons/hutao.bmp".to_string()), Some(&ASSETS)),
         // Recommended to start with 16:9 aspect ratio

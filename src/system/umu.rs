@@ -1,29 +1,19 @@
-use crate::{system::file_and_dirs::HOYOUMU_FILES, HOME_DIR};
+use crate::{HOME_DIR, system::file_and_dirs::HOYOUMU_FILES};
 use indoc::indoc;
 use lazy_static::lazy_static;
 use std::{env, fs, path::Path};
 
-lazy_static! 
-{
-    pub static ref UMU_RUN_PATHS: [String; 7] = 
-    [
-        format!("{}/.cargo/bin/umu-run", *HOME_DIR),
-        format!("{}/.local/bin/umu-run", *HOME_DIR),
-        "/usr/bin/umu-run".to_string(),
-        "/usr/local/bin/umu-run".to_string(),
-        "/home/beth/.cargo/bin/umu-run".to_string(),
-        "/usr/local/bin/umu-run".to_string(),
-        "/usr/bin/umu-run".to_string()
-    ];
+lazy_static! {
+    pub static ref UMU_RUN_PATHS: [String; 7] = [format!("{}/.cargo/bin/umu-run", *HOME_DIR), format!("{}/.local/bin/umu-run", *HOME_DIR), "/usr/bin/umu-run".to_string(), "/usr/local/bin/umu-run".to_string(), "/home/beth/.cargo/bin/umu-run".to_string(), "/usr/local/bin/umu-run".to_string(), "/usr/bin/umu-run".to_string()];
 }
 
 pub fn check_umu() -> Option<String>
 {
     let app_name = "umu-run";
     // 1. iterate through our known locations
-    for candidate in &*UMU_RUN_PATHS 
+    for candidate in &*UMU_RUN_PATHS
     {
-        if Path::new(candidate).exists() 
+        if Path::new(candidate).exists()
         {
             println!("✅ '{}' exists in {} | Checked With Candidate", app_name, candidate);
             return Some(candidate.to_string());
@@ -43,7 +33,7 @@ pub fn check_umu() -> Option<String>
             }
         }
     }
- 
+
     None
 }
 

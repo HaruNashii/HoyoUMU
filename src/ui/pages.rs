@@ -1,6 +1,6 @@
 use crate::{
     system::github_api::GITHUB_API_TIME_RESET,
-    ui::style::{BACKGROUND_COLOR, BLUE_COLOR, GREEN_COLOR, RED_COLOR, FOREGROUND_COLOR, TEXT_COLOR, YELLOW_COLOR}
+    ui::style::{BACKGROUND_COLOR, BLUE_COLOR, FOREGROUND_COLOR, GREEN_COLOR, RED_COLOR, TEXT_COLOR, YELLOW_COLOR}
 };
 use rust_page_system::{
     PersistentElements, get_center,
@@ -27,7 +27,7 @@ pub enum ButtonId
     NoConfirmUninstall,
     ConfirmPopUP,
     RetryAll,
-    RetryProton,
+    RetryProton
 }
 
 pub fn umu_run_dont_exist() -> PersistentElements<PageId, ButtonId>
@@ -43,7 +43,7 @@ pub fn umu_run_dont_exist() -> PersistentElements<PageId, ButtonId>
     let all_buttons = vec![Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 100, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }];
 
     //===================== images =========================
-    let all_images = vec![((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_umu.bmp".to_string() )];
+    let all_images = vec![((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_umu.bmp".to_string())];
 
     //===================== texts =========================
     let all_texts = vec![(16.0, (85, 215), "'umu-run' Is Not Installed \n       Please Install It First".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay!!!".to_string(), TEXT_COLOR)];
@@ -59,21 +59,10 @@ pub fn download_not_succeed_proton_pe_but_has_local() -> PersistentElements<Page
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
-    let all_buttons = vec!
-    [
-        Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 140, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None },
-        Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y - 20, centered_button.w, centered_button.h), radius: 10, id: ButtonId::Update, has_transition: None },
-        Button { enabled: true, color: YELLOW_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 60, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }
-    ];
+    let all_buttons = vec![Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 140, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }, Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y - 20, centered_button.w, centered_button.h), radius: 10, id: ButtonId::Update, has_transition: None }, Button { enabled: true, color: YELLOW_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 60, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }];
 
     //===================== texts =========================
-    let all_texts = vec!
-    [
-        (18.0, (all_buttons[1].rect.x + 35, all_buttons[1].rect.y + 18), "Yes, Try Again!!".to_string(), TEXT_COLOR), 
-        (18.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR),
-        (18.0, (all_buttons[2].rect.x + 15, all_buttons[2].rect.y + 18), "Continue With Local".to_string(), TEXT_COLOR), 
-        (16.0, (57, 65), "Installation of Proton-GE Latest \ndidn't work, You you like to retry \nor keep with your existing version?".to_string(), TEXT_COLOR)
-    ]; 
+    let all_texts = vec![(18.0, (all_buttons[1].rect.x + 35, all_buttons[1].rect.y + 18), "Yes, Try Again!!".to_string(), TEXT_COLOR), (18.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR), (18.0, (all_buttons[2].rect.x + 15, all_buttons[2].rect.y + 18), "Continue With Local".to_string(), TEXT_COLOR), (16.0, (57, 65), "Installation of Proton-GE Latest \ndidn't work, You you like to retry \nor keep with your existing version?".to_string(), TEXT_COLOR)];
 
     PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
@@ -86,10 +75,7 @@ pub fn download_not_succeed_proton_pe(is_from_install: bool) -> PersistentElemen
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
-    let mut all_buttons = vec!
-    [
-        Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 100, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None },
-    ];
+    let mut all_buttons = vec![Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 100, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }];
     if is_from_install
     {
         all_buttons.push(Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y, centered_button.w, centered_button.h), radius: 10, id: ButtonId::RetryProton, has_transition: None });
@@ -100,12 +86,7 @@ pub fn download_not_succeed_proton_pe(is_from_install: bool) -> PersistentElemen
     };
 
     //===================== texts =========================
-    let all_texts = vec!
-    [
-        (25.0, (all_buttons[1].rect.x + 10, all_buttons[1].rect.y + 13), "Yes, Try Again!!".to_string(), TEXT_COLOR), 
-        (25.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR),
-        (16.0, (34, 120), "Proton-GE installation didn't work \nWould you like to retry the installation?".to_string(), TEXT_COLOR)
-    ]; 
+    let all_texts = vec![(25.0, (all_buttons[1].rect.x + 10, all_buttons[1].rect.y + 13), "Yes, Try Again!!".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR), (16.0, (34, 120), "Proton-GE installation didn't work \nWould you like to retry the installation?".to_string(), TEXT_COLOR)];
 
     PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
@@ -120,25 +101,13 @@ pub fn download_not_succeed_pe() -> PersistentElements<PageId, ButtonId>
     let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     //===================== images =========================
-    let all_images = vec!
-    [
-        ((centered_image_pos.pos_x, 25), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_colapse.bmp".to_string() )
-    ];
+    let all_images = vec![((centered_image_pos.pos_x, 25), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_colapse.bmp".to_string())];
 
     //===================== buttons =========================
-    let all_buttons = vec!
-    [
-        Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 150, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None },
-        Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 60, centered_button.w, centered_button.h), radius: 10, id: ButtonId::RetryAll, has_transition: None }
-    ];
+    let all_buttons = vec![Button { enabled: true, color: RED_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 150, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None }, Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 60, centered_button.w, centered_button.h), radius: 10, id: ButtonId::RetryAll, has_transition: None }];
 
     //===================== texts =========================
-    let all_texts = vec!
-    [
-        (25.0, (all_buttons[1].rect.x + 10, all_buttons[1].rect.y + 13), "Yes, Try Again!!".to_string(), TEXT_COLOR), 
-        (25.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR),
-        (16.0, (32, 125), "Couldn't find HoyoPlay,   please don't \n install the launcher on a custom folder,\n only games supports custom folders!!! \n \nWould you like to retry the installation?".to_string(), TEXT_COLOR)
-    ]; 
+    let all_texts = vec![(25.0, (all_buttons[1].rect.x + 10, all_buttons[1].rect.y + 13), "Yes, Try Again!!".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 70, all_buttons[0].rect.y + 13), "No :(".to_string(), TEXT_COLOR), (16.0, (32, 125), "Couldn't find HoyoPlay,   please don't \n install the launcher on a custom folder,\n only games supports custom folders!!! \n \nWould you like to retry the installation?".to_string(), TEXT_COLOR)];
 
     PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: Some(all_images) }
 }
@@ -155,10 +124,7 @@ pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
 
     //===================== images =========================
     let centered_image_pos = get_center((85, 100), (350, 450));
-    let all_images = vec!
-    [
-        ((centered_image_pos.pos_x, 75), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_colapse.bmp".to_string() )
-    ];
+    let all_images = vec![((centered_image_pos.pos_x, 75), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_colapse.bmp".to_string())];
 
     //===================== texts =========================
     let mut all_texts = vec![(16.0, (55, 180), "Sorry, Github API Is Not Available \n            Please Try Again Later!!!".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay :(".to_string(), TEXT_COLOR)];
@@ -178,14 +144,14 @@ pub fn downloading_pe(downloading_hoyoplay: bool, downloading_proton: bool, setu
     let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     //===================== texts =========================
-    let mut all_texts = Vec::new(); 
+    let mut all_texts = Vec::new();
     if setuping_final_tweaks
     {
-        all_texts.push((16.0, (63, 180),   "Running Final Tweaking For An \n              Amazing Adventure \n\n                Please Wait <3!!!".to_string(), TEXT_COLOR))
+        all_texts.push((16.0, (63, 180), "Running Final Tweaking For An \n              Amazing Adventure \n\n                Please Wait <3!!!".to_string(), TEXT_COLOR))
     }
     if downloading_proton
     {
-        all_texts.push((16.0, (45, 210),   "Downloading The Latest Proton-GE \n                       Please Wait <3!!!".to_string(), TEXT_COLOR))
+        all_texts.push((16.0, (45, 210), "Downloading The Latest Proton-GE \n                       Please Wait <3!!!".to_string(), TEXT_COLOR))
     }
     if downloading_hoyoplay
     {
@@ -243,18 +209,18 @@ pub fn download_succeed(is_proton: bool) -> PersistentElements<PageId, ButtonId>
 
     let centered_image_pos = get_center((85, 90), (350, 450));
     //===================== images =========================
-    let mut all_images = Vec::new(); 
+    let mut all_images = Vec::new();
 
     //===================== texts =========================
     let mut all_text = vec![(25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay!!!".to_string(), TEXT_COLOR)];
     if is_proton
     {
-        all_images.push(((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_proton.bmp".to_string() ));
+        all_images.push(((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_proton.bmp".to_string()));
         all_text.push((18.0, (75, 180), "Downloaded The Latest \n   Proton-GE Version!!!".to_string(), TEXT_COLOR));
     }
     else
     {
-        all_images.push(((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_all.bmp".to_string() ));
+        all_images.push(((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_all.bmp".to_string()));
         all_text.push((18.0, (40, 215), "       Everything Downloaded!!! \n    Thanks for using this app <3".to_string(), TEXT_COLOR));
     };
 
@@ -280,7 +246,7 @@ pub fn already_installed_pe(is_proton: bool) -> PersistentElements<PageId, Butto
     {
         all_text.push((18.0, (32, 210), "Your Proton-GE Version Is Already\n                        The Latest!!!".to_string(), TEXT_COLOR));
         let centered_image_pos = get_center((85, 90), (350, 450));
-        all_images.push( ((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_proton.bmp".to_string() ));
+        all_images.push(((centered_image_pos.pos_x, 95), (centered_image_pos.w, centered_image_pos.h), "icons/hutao_proton.bmp".to_string()));
     }
     else
     {

@@ -17,12 +17,13 @@ pub async fn fetch_github_api(url: &str) -> Result<Value, Box<dyn std::error::Er
     let text = client.get(url).send().await?.text().await?;
 
     // Check for rate-limit headers
-    if let Some(remaining) = res.headers().get("x-ratelimit-remaining") && remaining == "0"
+    if let Some(remaining) = res.headers().get("x-ratelimit-remaining")
+        && remaining == "0"
     {
         if let Some(reset_header) = res.headers().get("X-RateLimit-Reset")
         {
             let reset_unix = reset_header.to_str()?.parse::<i64>()?;
-            let utc_time =  chrono::DateTime::from_timestamp(reset_unix, 0).unwrap();
+            let utc_time = chrono::DateTime::from_timestamp(reset_unix, 0).unwrap();
             let local_time = utc_time.with_timezone(&Local);
             let local_time_string = local_time.to_string();
             let parts: Vec<&str> = local_time_string.splitn(3, ' ').collect(); // split into at most 3 parts

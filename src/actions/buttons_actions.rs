@@ -9,14 +9,20 @@ use crate::{
         proton_ge::{check_if_proton_ge_exist, download_proton_ge},
         umu::{check_umu, create_umu_config}
     },
-    ui::pages::{ButtonId::{self}, PageId}
+    ui::pages::{
+        ButtonId::{self},
+        PageId
+    }
 };
 use rust_page_system::system::{page_system::PageData, state::AppState};
 use std::{thread, time::Duration};
 
 // Added for safe global state management
 use lazy_static::lazy_static;
-use std::sync::{Mutex, atomic::{AtomicBool, AtomicU8, Ordering}};
+use std::sync::{
+    Mutex,
+    atomic::{AtomicBool, AtomicU8, Ordering}
+};
 
 // Use Mutex<Option<T>> for Option types and AtomicBool/U8 for simple booleans.
 lazy_static! {
@@ -24,12 +30,10 @@ lazy_static! {
     pub static ref HOYOPLAY_DOWNLOAD_SUCCEEDED: Mutex<Option<bool>> = Mutex::new(None);
     pub static ref PROTON_DOWNLOAD_SUCCEEDED: Mutex<Option<(bool, bool)>> = Mutex::new(None);
     pub static ref ALL_DOWNLOAD_SUCCEEDED: Mutex<Option<bool>> = Mutex::new(None);
-
     pub static ref UMU_RUN_EXIST: Mutex<Option<bool>> = Mutex::new(None);
     pub static ref PROTON_EXIST: Mutex<Option<bool>> = Mutex::new(None);
     pub static ref PROTON_LATEST_EXIST: Mutex<Option<bool>> = Mutex::new(None);
     pub static ref HOYOPLAY_EXIST: Mutex<Option<bool>> = Mutex::new(None);
-
     pub static ref GITHUB_API_AVAILABLE: Mutex<Option<bool>> = Mutex::new(None);
 }
 
@@ -48,8 +52,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         if &ButtonId::Install == button_id
         {
             LOADING.store(true, Ordering::SeqCst);
-            thread::spawn(move || 
-            {
+            thread::spawn(move || {
                 // Stage 1: UMU Logic
                 if STAGE.load(Ordering::SeqCst) == 1
                 {
@@ -148,7 +151,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         {
                             *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(true);
                         }
-                        else 
+                        else
                         {
                             LOADING.store(false, Ordering::SeqCst);
                             *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(false);
@@ -210,19 +213,26 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
 
         if &ButtonId::Update == button_id
         {
-            LOADING.store(true, Ordering::SeqCst); 
-            thread::spawn(move || 
-            {
+            LOADING.store(true, Ordering::SeqCst);
+            thread::spawn(move || {
                 // ========= CHECKING =========
-                let result = check_if_github_api_is_available(); 
-                if !result { LOADING.store(false, Ordering::SeqCst); }
+                let result = check_if_github_api_is_available();
+                if !result
+                {
+                    LOADING.store(false, Ordering::SeqCst);
+                }
                 *GITHUB_API_AVAILABLE.lock().unwrap() = Some(result);
 
                 // ========= DOWNLOADING =========
                 println!("\n# ==== Update Button Clicked! ==== #");
                 if result
                 {
-                    if check_if_proton_ge_exist(None, true) { LOADING.store(false, Ordering::SeqCst); *PROTON_LATEST_EXIST.lock().unwrap() = Some(true); return; }
+                    if check_if_proton_ge_exist(None, true)
+                    {
+                        LOADING.store(false, Ordering::SeqCst);
+                        *PROTON_LATEST_EXIST.lock().unwrap() = Some(true);
+                        return;
+                    }
                     LOADING.store(false, Ordering::SeqCst);
                     DOWNLOADING_PROTON_GE.store(true, Ordering::SeqCst);
                     download_proton_ge();
@@ -264,19 +274,19 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 *HOYOPLAY_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
                 *PROTON_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
                 *ALL_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
-                
+
                 DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
                 DOWNLOADING_HOYOPLAY_SETUP.store(false, Ordering::SeqCst);
                 DOWNLOADING_HOYOPLAY.store(false, Ordering::SeqCst);
                 DOWNLOADING_OTHERS.store(false, Ordering::SeqCst);
-                
+
                 *UMU_RUN_EXIST.lock().unwrap() = None;
                 *PROTON_EXIST.lock().unwrap() = None;
                 *PROTON_LATEST_EXIST.lock().unwrap() = None;
                 *HOYOPLAY_EXIST.lock().unwrap() = None;
-                
+
                 *GITHUB_API_AVAILABLE.lock().unwrap() = None;
-                
+
                 STAGE.store(1, Ordering::SeqCst);
 
                 LOADING.store(false, Ordering::SeqCst);

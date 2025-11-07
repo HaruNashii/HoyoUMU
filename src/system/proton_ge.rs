@@ -1,13 +1,16 @@
+use crate::{
+    actions::buttons_actions::GITHUB_API_AVAILABLE,
+    system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES}
+};
 use flate2::read::GzDecoder;
 use reqwest::*;
 use serde_json::Value;
 use std::{
     fs::{self, File},
     io::Cursor,
-    path::{Path, PathBuf} 
+    path::{Path, PathBuf}
 };
 use tar::Archive;
-use crate::{actions::buttons_actions::GITHUB_API_AVAILABLE, system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES}};
 
 const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
 
@@ -113,13 +116,19 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
             }
             else if *GITHUB_API_AVAILABLE.lock().unwrap() == Some(true)
             {
-                    // ==== Remove ProtonLatest if existing version is older ====
-                    if fs::exists(&HOYOUMU_DIRS[1]).unwrap() { fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap(); };
-                    println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
+                // ==== Remove ProtonLatest if existing version is older ====
+                if fs::exists(&HOYOUMU_DIRS[1]).unwrap()
+                {
+                    fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap();
+                };
+                println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
             }
-            else 
+            else
             {
-                if only_latest { return false; };
+                if only_latest
+                {
+                    return false;
+                };
                 println!("✅ Github API Unavailable, So Using Your Proton-GE Version: '{}'", received_version);
                 return true;
             };
@@ -129,7 +138,7 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
     {
         println!("⚠️ Valid Proton-GE Installation Not Found, Downloading New One...");
     }
-    false 
+    false
 }
 
 async fn download_online_data(client: Client, received_version: &String, received_url: &String)
