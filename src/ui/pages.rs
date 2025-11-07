@@ -111,14 +111,21 @@ pub fn downloading_pe(downloading_proton: bool) -> PersistentElements<PageId, Bu
     let mut all_texts = Vec::new(); 
     if downloading_proton
     {
-        all_texts.push((16.0, (45, 210),   "Downloading The Latest Proton-GE \n               Please Wait <3!!!".to_string(), TEXT_COLOR))
+        all_texts.push((16.0, (45, 210),   "Downloading The Latest Proton-GE \n                       Please Wait <3!!!".to_string(), TEXT_COLOR))
     }
     else 
     {
         all_texts = vec![(16.0, (55, 210), "Downloading Everything For You \n                  Please Wait <3!!!".to_string(), TEXT_COLOR)];
     };
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: None, texts: Some(all_texts), images: None }
+    let centered_image = get_center((50, 50), (350, 450));
+    //===================== images =========================
+    let all_images = vec!
+    [
+        ((centered_image.pos_x, 300), (centered_image.w, centered_image.h), "gifs/herta-kurukuru.gif".to_string())
+    ];
+
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: None, texts: Some(all_texts), images: Some(all_images) }
 }
 
 pub fn download_succeed(is_proton: bool) -> PersistentElements<PageId, ButtonId>

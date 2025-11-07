@@ -60,7 +60,7 @@ fn main()
 
         // === Debug ====
         //page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
-        //page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
+        page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
         //page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
         //page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
         //page_data.forced_persistent_elements = Some(vec![download_not_succeed_pe()]);
