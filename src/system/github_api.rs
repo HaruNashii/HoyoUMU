@@ -2,14 +2,19 @@ use chrono::Local;
 use reqwest::Client;
 use serde_json::Value;
 
-pub static mut GITHUB_API_TIME_RESET: Option<String> = None;
+// Safe global mutable state
+use lazy_static::lazy_static;
+use std::sync::Mutex;
+
+lazy_static! {
+    pub static ref GITHUB_API_TIME_RESET: Mutex<Option<String>> = Mutex::new(None);
+}
 
 pub async fn fetch_github_api(url: &str) -> Result<Value, Box<dyn std::error::Error>>
 {
     let client = Client::new();
     let res = client.get(url).header("User-Agent", "rust-reqwest").send().await?;
     let text = client.get(url).send().await?.text().await?;
-
 
     // Check for rate-limit headers
     if let Some(remaining) = res.headers().get("x-ratelimit-remaining") && remaining == "0"
@@ -22,7 +27,8 @@ pub async fn fetch_github_api(url: &str) -> Result<Value, Box<dyn std::error::Er
             let local_time_string = local_time.to_string();
             let parts: Vec<&str> = local_time_string.splitn(3, ' ').collect(); // split into at most 3 parts
             let local_time_to_send = if parts.len() >= 2 { format!("{} {}", parts[0], parts[1]) } else { local_time_string.to_string() };
-            unsafe { GITHUB_API_TIME_RESET = Some(local_time_to_send) };
+            // Assign new reset time safely
+            *GITHUB_API_TIME_RESET.lock().unwrap() = Some(local_time_to_send);
         }
         eprintln!("⚠️ GitHub API rate limit exceeded (via header)");
         return Err("Rate limit exceeded".into());

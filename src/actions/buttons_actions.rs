@@ -14,25 +14,32 @@ use crate::{
 use rust_page_system::system::{page_system::PageData, state::AppState};
 use std::{thread, time::Duration};
 
-pub static mut HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED: Option<bool> = None;
-pub static mut HOYOPLAY_DOWNLOAD_SUCCEEDED: Option<bool> = None;
-pub static mut PROTON_DOWNLOAD_SUCCEEDED: Option<(bool, bool)> = None;
-pub static mut ALL_DOWNLOAD_SUCCEEDED: Option<bool> = None;
+// Added for safe global state management
+use lazy_static::lazy_static;
+use std::sync::{Mutex, atomic::{AtomicBool, AtomicU8, Ordering}};
 
-pub static mut DOWNLOADING_PROTON_GE: bool = false;
-pub static mut DOWNLOADING_HOYOPLAY_SETUP: bool = false;
-pub static mut DOWNLOADING_HOYOPLAY: bool = false;
-pub static mut DOWNLOADING_OTHERS: bool = false;
+// Use Mutex<Option<T>> for Option types and AtomicBool/U8 for simple booleans.
+lazy_static! {
+    pub static ref HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED: Mutex<Option<bool>> = Mutex::new(None);
+    pub static ref HOYOPLAY_DOWNLOAD_SUCCEEDED: Mutex<Option<bool>> = Mutex::new(None);
+    pub static ref PROTON_DOWNLOAD_SUCCEEDED: Mutex<Option<(bool, bool)>> = Mutex::new(None);
+    pub static ref ALL_DOWNLOAD_SUCCEEDED: Mutex<Option<bool>> = Mutex::new(None);
 
-pub static mut UMU_RUN_EXIST: Option<bool> = None;
-pub static mut PROTON_EXIST: Option<bool> = None;
-pub static mut PROTON_LATEST_EXIST: Option<bool> = None;
-pub static mut HOYOPLAY_EXIST: Option<bool> = None;
+    pub static ref UMU_RUN_EXIST: Mutex<Option<bool>> = Mutex::new(None);
+    pub static ref PROTON_EXIST: Mutex<Option<bool>> = Mutex::new(None);
+    pub static ref PROTON_LATEST_EXIST: Mutex<Option<bool>> = Mutex::new(None);
+    pub static ref HOYOPLAY_EXIST: Mutex<Option<bool>> = Mutex::new(None);
 
-pub static mut GITHUB_API_AVAILABLE: Option<bool> = None;
+    pub static ref GITHUB_API_AVAILABLE: Mutex<Option<bool>> = Mutex::new(None);
+}
 
-pub static mut STAGE: u8 = 1;
-pub static mut LOADING: bool = false;
+// atomic values for booleans and stage
+pub static STAGE: AtomicU8 = AtomicU8::new(1);
+pub static LOADING: AtomicBool = AtomicBool::new(false);
+pub static DOWNLOADING_PROTON_GE: AtomicBool = AtomicBool::new(false);
+pub static DOWNLOADING_HOYOPLAY_SETUP: AtomicBool = AtomicBool::new(false);
+pub static DOWNLOADING_HOYOPLAY: AtomicBool = AtomicBool::new(false);
+pub static DOWNLOADING_OTHERS: AtomicBool = AtomicBool::new(false);
 
 pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &ButtonId, page_data: &mut PageData<PageId, ButtonId>)
 {
@@ -40,209 +47,197 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
     {
         if &ButtonId::Install == button_id
         {
-            unsafe 
+            LOADING.store(true, Ordering::SeqCst);
+            thread::spawn(move || 
             {
-                LOADING = true;
-                thread::spawn(move || 
+                // Stage 1: UMU Logic
+                if STAGE.load(Ordering::SeqCst) == 1
                 {
-                    if STAGE == 1
+                    println!("Stage 1 Runned.");
+                    let option_path_to_umu = check_umu();
+                    if option_path_to_umu.is_some()
                     {
-                        println!("Stage 1 Runned.");
-                        // ========= UMU Logic =========
-                        let option_path_to_umu = check_umu();
-                        if option_path_to_umu.is_some()
-                        {
-                            UMU_RUN_EXIST = Some(true);
-                        }
-                        else
-                        {
-                            LOADING = false;
-                            UMU_RUN_EXIST = Some(false);
-                            return 
-                        };
-                        STAGE = 2;
+                        *UMU_RUN_EXIST.lock().unwrap() = Some(true);
                     }
-
-
-
-                    // ========= PROTON-GE Logic =========
-                    if STAGE == 2
+                    else
                     {
-                        println!("Stage 2 Runned.");
-                        if check_if_github_api_is_available()
-                        {
-                            GITHUB_API_AVAILABLE = Some(true);
-                        }
-                        STAGE = 3;
+                        LOADING.store(false, Ordering::SeqCst);
+                        *UMU_RUN_EXIST.lock().unwrap() = Some(false);
+                        return;
+                    };
+                    STAGE.store(2, Ordering::SeqCst);
+                }
+
+                // Stage 2: PROTON-GE Logic: check GitHub API
+                if STAGE.load(Ordering::SeqCst) == 2
+                {
+                    println!("Stage 2 Runned.");
+                    if check_if_github_api_is_available()
+                    {
+                        *GITHUB_API_AVAILABLE.lock().unwrap() = Some(true);
                     }
-                    if STAGE == 3
+                    STAGE.store(3, Ordering::SeqCst);
+                }
+
+                if STAGE.load(Ordering::SeqCst) == 3
+                {
+                    println!("Stage 3 Runned.");
+                    let github_api_available = *GITHUB_API_AVAILABLE.lock().unwrap();
+                    if github_api_available == Some(true)
                     {
-                        println!("Stage 3 Runned.");
-                        if GITHUB_API_AVAILABLE == Some(true)
+                        println!("case 1");
+                        if !check_if_proton_ge_exist(None, true)
                         {
-                            println!("case 1");
+                            println!("case 2");
+                            LOADING.store(false, Ordering::SeqCst);
+                            DOWNLOADING_PROTON_GE.store(true, Ordering::SeqCst);
+                            download_proton_ge();
+                            DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
+                            LOADING.store(true, Ordering::SeqCst);
+
                             if !check_if_proton_ge_exist(None, true)
                             {
-                                println!("case 2");
-                                LOADING = false;
-                                DOWNLOADING_PROTON_GE = true;
-                                download_proton_ge();
-                                DOWNLOADING_PROTON_GE = false;
-                                LOADING = true;
-
-                                if !check_if_proton_ge_exist(None, true)
-                                {
-                                    println!("case 3");
-                                    LOADING = false;
-                                    PROTON_DOWNLOAD_SUCCEEDED = Some((false, true));
-                                    return;
-                                }
-                            }
-                        }
-                        // needed this bc ".is_none()" creates an reference, and pub mut static reference is a big no no
-                        #[allow(clippy::partialeq_to_none)]
-                        if GITHUB_API_AVAILABLE == None
-                        {
-                            println!("case 4");
-                            if check_if_proton_ge_exist(None, false)
-                            {
-                                println!("case 5");
-                                LOADING = false;
-                                PROTON_EXIST = Some(true);
-                                thread::sleep(Duration::from_secs(5));
-                                PROTON_EXIST = None;
-                                LOADING = true;
-                            }
-                            else
-                            {
-                                println!("case 6");
-                                LOADING = false;
-                                GITHUB_API_AVAILABLE = Some(false);
+                                println!("case 3");
+                                LOADING.store(false, Ordering::SeqCst);
+                                *PROTON_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some((false, true));
                                 return;
                             }
                         }
-                        STAGE = 4;
                     }
-
-
-
-                    // ========= HOYOPLAY Logic =========
-                    if STAGE == 4
+                    // needed this because ".is_none()" creates a reference, but with mutex we can check Option directly
+                    if github_api_available.is_none()
                     {
-                        println!("Stage 4 Runned.");
-                        if !check_if_hoyoplay_exist()
+                        println!("case 4");
+                        if check_if_proton_ge_exist(None, false)
                         {
-                            //Download HoyoPlay Setup
-                            if !check_if_hoyoplay_setup_exist()
-                            {
-                                LOADING = false;
-                                DOWNLOADING_HOYOPLAY_SETUP = true;
-                                download_hoyoplay_setup();
-                                DOWNLOADING_HOYOPLAY_SETUP = false;
-                                LOADING = true;
-                            }
-                            //recheck if hoyoplay setup was truly installed
-                            if check_if_hoyoplay_setup_exist()
-                            {
-                                HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = Some(true);
-                            }
-                            else 
-                            {
-                                LOADING = false;
-                                HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = Some(false);
-                                eprintln!("Hoyoplay setup download failed");
-                                return;
-                            };
-
-
-                            // Download HoyoPlay
-                            let path_to_umu = check_umu();
-                            if !check_if_hoyoplay_exist()
-                            {
-                                LOADING = false;
-                                DOWNLOADING_HOYOPLAY = true;
-                                run_hoyoplay_setup(&path_to_umu.unwrap());
-                                DOWNLOADING_HOYOPLAY = false;
-                                LOADING = true;
-                            }
-                            //recheck if hoyoplay was truly installed
-                            if check_if_hoyoplay_exist()
-                            {
-                                HOYOPLAY_DOWNLOAD_SUCCEEDED = Some(true);
-                            }
-                            else
-                            {
-                                LOADING = false;
-                                HOYOPLAY_DOWNLOAD_SUCCEEDED = Some(false);
-                                return;
-                            }
-                        }
-                        STAGE = 5;
-                    }
-
-
-
-                    // ========= DOWNLOADING =========
-                    if STAGE == 5
-                    {
-                        println!("Stage 5 Runned.");
-                        if check_if_proton_ge_exist(None, false) && check_if_hoyoplay_exist()
-                        {
-                            LOADING = false;
-                            DOWNLOADING_OTHERS = true;
-                            thread::sleep(Duration::from_secs(2));
-                            create_dirs();
-                            create_umu_config();
-                            create_proton_fixes();
-                            download_icon();
-                            let path_to_umu = check_umu();
-                            create_desktop_file(&path_to_umu.unwrap());
-                            DOWNLOADING_OTHERS = false;
-                            ALL_DOWNLOAD_SUCCEEDED = Some(true);
-                            STAGE = 1;
+                            println!("case 5");
+                            LOADING.store(false, Ordering::SeqCst);
+                            *PROTON_EXIST.lock().unwrap() = Some(true);
+                            thread::sleep(Duration::from_secs(5));
+                            *PROTON_EXIST.lock().unwrap() = None;
+                            LOADING.store(true, Ordering::SeqCst);
                         }
                         else
                         {
-                            ALL_DOWNLOAD_SUCCEEDED = Some(false);
-                        };
+                            println!("case 6");
+                            LOADING.store(false, Ordering::SeqCst);
+                            *GITHUB_API_AVAILABLE.lock().unwrap() = Some(false);
+                            return;
+                        }
                     }
-                });
-            }
+                    STAGE.store(4, Ordering::SeqCst);
+                }
+
+                // Stage 4: HOYOPLAY Logic
+                if STAGE.load(Ordering::SeqCst) == 4
+                {
+                    println!("Stage 4 Runned.");
+                    if !check_if_hoyoplay_exist()
+                    {
+                        //Download HoyoPlay Setup
+                        if !check_if_hoyoplay_setup_exist()
+                        {
+                            LOADING.store(false, Ordering::SeqCst);
+                            DOWNLOADING_HOYOPLAY_SETUP.store(true, Ordering::SeqCst);
+                            download_hoyoplay_setup();
+                            DOWNLOADING_HOYOPLAY_SETUP.store(false, Ordering::SeqCst);
+                            LOADING.store(true, Ordering::SeqCst);
+                        }
+                        //recheck if hoyoplay setup was truly installed
+                        if check_if_hoyoplay_setup_exist()
+                        {
+                            *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(true);
+                        }
+                        else 
+                        {
+                            LOADING.store(false, Ordering::SeqCst);
+                            *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(false);
+                            eprintln!("Hoyoplay setup download failed");
+                            return;
+                        };
+
+                        // Download HoyoPlay
+                        let path_to_umu = check_umu();
+                        if !check_if_hoyoplay_exist()
+                        {
+                            LOADING.store(false, Ordering::SeqCst);
+                            DOWNLOADING_HOYOPLAY.store(true, Ordering::SeqCst);
+                            run_hoyoplay_setup(&path_to_umu.unwrap());
+                            DOWNLOADING_HOYOPLAY.store(false, Ordering::SeqCst);
+                            LOADING.store(true, Ordering::SeqCst);
+                        }
+                        //recheck if hoyoplay was truly installed
+                        if check_if_hoyoplay_exist()
+                        {
+                            *HOYOPLAY_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(true);
+                        }
+                        else
+                        {
+                            LOADING.store(false, Ordering::SeqCst);
+                            *HOYOPLAY_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(false);
+                            return;
+                        }
+                    }
+                    STAGE.store(5, Ordering::SeqCst);
+                }
+
+                // Stage 5: DOWNLOADING final tasks
+                if STAGE.load(Ordering::SeqCst) == 5
+                {
+                    println!("Stage 5 Runned.");
+                    if check_if_proton_ge_exist(None, false) && check_if_hoyoplay_exist()
+                    {
+                        LOADING.store(false, Ordering::SeqCst);
+                        DOWNLOADING_OTHERS.store(true, Ordering::SeqCst);
+                        thread::sleep(Duration::from_secs(2));
+                        create_dirs();
+                        create_umu_config();
+                        create_proton_fixes();
+                        download_icon();
+                        let path_to_umu = check_umu();
+                        create_desktop_file(&path_to_umu.unwrap());
+                        DOWNLOADING_OTHERS.store(false, Ordering::SeqCst);
+                        *ALL_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(true);
+                        STAGE.store(1, Ordering::SeqCst);
+                    }
+                    else
+                    {
+                        *ALL_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(false);
+                    };
+                }
+            });
         };
 
         if &ButtonId::Update == button_id
         {
-            unsafe
+            LOADING.store(true, Ordering::SeqCst); 
+            thread::spawn(move || 
             {
-                LOADING = true; 
-                thread::spawn(move || 
-                {
-                    // ========= CHECKING =========
-                    let result = check_if_github_api_is_available(); 
-                    if !result { LOADING = false };
-                    GITHUB_API_AVAILABLE = Some(result);
+                // ========= CHECKING =========
+                let result = check_if_github_api_is_available(); 
+                if !result { LOADING.store(false, Ordering::SeqCst); }
+                *GITHUB_API_AVAILABLE.lock().unwrap() = Some(result);
 
-                    // ========= DOWNLOADING =========
-                    println!("\n# ==== Update Button Clicked! ==== #");
-                    if GITHUB_API_AVAILABLE == Some(true)
+                // ========= DOWNLOADING =========
+                println!("\n# ==== Update Button Clicked! ==== #");
+                if result
+                {
+                    if check_if_proton_ge_exist(None, true) { LOADING.store(false, Ordering::SeqCst); *PROTON_LATEST_EXIST.lock().unwrap() = Some(true); return; }
+                    LOADING.store(false, Ordering::SeqCst);
+                    DOWNLOADING_PROTON_GE.store(true, Ordering::SeqCst);
+                    download_proton_ge();
+                    if check_if_proton_ge_exist(None, true)
                     {
-                        if check_if_proton_ge_exist(None, true) { LOADING = false; PROTON_LATEST_EXIST = Some(true); return };
-                        LOADING = false;
-                        DOWNLOADING_PROTON_GE = true;
-                        download_proton_ge();
-                        if check_if_proton_ge_exist(None, true)
-                        {
-                            DOWNLOADING_PROTON_GE = false;
-                            PROTON_DOWNLOAD_SUCCEEDED = Some((true, false));
-                        }
-                        else
-                        {
-                            DOWNLOADING_PROTON_GE = false;
-                            PROTON_DOWNLOAD_SUCCEEDED = Some((false, false));
-                        };
+                        DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
+                        *PROTON_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some((true, false));
                     }
-                });
-            }
+                    else
+                    {
+                        DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
+                        *PROTON_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some((false, false));
+                    };
+                }
+            });
         };
 
         if &ButtonId::Unistall == button_id
@@ -264,45 +259,38 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         if &ButtonId::ConfirmPopUP == button_id
         {
             page_data.forced_persistent_elements = None;
-            unsafe 
             {
-                HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = None;
-                HOYOPLAY_DOWNLOAD_SUCCEEDED = None;
-                PROTON_DOWNLOAD_SUCCEEDED = None;
-                ALL_DOWNLOAD_SUCCEEDED = None;
+                *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
+                *HOYOPLAY_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
+                *PROTON_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
+                *ALL_DOWNLOAD_SUCCEEDED.lock().unwrap() = None;
                 
-                DOWNLOADING_PROTON_GE = false;
-                DOWNLOADING_HOYOPLAY_SETUP = false;
-                DOWNLOADING_HOYOPLAY = false;
-                DOWNLOADING_OTHERS = false;
+                DOWNLOADING_PROTON_GE.store(false, Ordering::SeqCst);
+                DOWNLOADING_HOYOPLAY_SETUP.store(false, Ordering::SeqCst);
+                DOWNLOADING_HOYOPLAY.store(false, Ordering::SeqCst);
+                DOWNLOADING_OTHERS.store(false, Ordering::SeqCst);
                 
-                UMU_RUN_EXIST = None;
-                PROTON_EXIST = None;
-                PROTON_LATEST_EXIST = None;
-                HOYOPLAY_EXIST = None;
+                *UMU_RUN_EXIST.lock().unwrap() = None;
+                *PROTON_EXIST.lock().unwrap() = None;
+                *PROTON_LATEST_EXIST.lock().unwrap() = None;
+                *HOYOPLAY_EXIST.lock().unwrap() = None;
                 
-                GITHUB_API_AVAILABLE = None;
+                *GITHUB_API_AVAILABLE.lock().unwrap() = None;
                 
-                STAGE = 1;
+                STAGE.store(1, Ordering::SeqCst);
 
-                LOADING = false;
+                LOADING.store(false, Ordering::SeqCst);
             };
         };
         if &ButtonId::RetryProton == button_id
         {
-            unsafe 
-            {
-                STAGE = 1;
-                button_action(app_state, &ButtonId::Install, page_data);
-            }
+            STAGE.store(1, Ordering::SeqCst);
+            button_action(app_state, &ButtonId::Install, page_data);
         }
         if &ButtonId::RetryAll == button_id
         {
-            unsafe 
-            {
-                STAGE = 2;
-                button_action(app_state, &ButtonId::Install, page_data);
-            }
+            STAGE.store(2, Ordering::SeqCst);
+            button_action(app_state, &ButtonId::Install, page_data);
         }
     }
 }

@@ -111,7 +111,7 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
                 println!("✅ Your Proton-GE Version: '{}' Is Already The Latest", received_version);
                 return true;
             }
-            else if unsafe{GITHUB_API_AVAILABLE == Some(true)}
+            else if *GITHUB_API_AVAILABLE.lock().unwrap() == Some(true)
             {
                     // ==== Remove ProtonLatest if existing version is older ====
                     if fs::exists(&HOYOUMU_DIRS[1]).unwrap() { fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap(); };

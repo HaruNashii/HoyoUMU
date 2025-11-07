@@ -162,10 +162,9 @@ pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
 
     //===================== texts =========================
     let mut all_texts = vec![(16.0, (55, 180), "Sorry, Github API Is Not Available \n            Please Try Again Later!!!".to_string(), TEXT_COLOR), (25.0, (all_buttons[0].rect.x + 61, all_buttons[0].rect.y + 13), "Okay :(".to_string(), TEXT_COLOR)];
-    #[allow(static_mut_refs)]
-    if unsafe{GITHUB_API_TIME_RESET.is_some()}
+    // Lock the mutex to check and clone the reset time value
+    if let Some(github_api_time_reset) = GITHUB_API_TIME_RESET.lock().unwrap().clone()
     {
-        let github_api_time_reset = unsafe{GITHUB_API_TIME_RESET.clone().unwrap()};
         all_texts.push((16.0, (90, 225), format!("Github API will reset in: \n   {}", github_api_time_reset), TEXT_COLOR))
     };
 
