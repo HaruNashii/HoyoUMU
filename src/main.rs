@@ -1,3 +1,6 @@
+// Debug
+//use crate::ui::pages::{download_not_succeed_pe, download_not_succeed_proton_pe, download_not_succeed_proton_pe_but_has_local, downloading_pe, loading, using_local_proton};
+
 use crate::{
     actions::buttons_actions::button_action,
     system::setup_rps::populate_page_data,
@@ -35,7 +38,7 @@ fn main()
     let window_config = WindowConfig 
     {
         window_title: "HoyoUMU".to_string(),
-        icon: (Some("icons/hoyoumu_icon.bmp".to_string()), Some(&ASSETS)),
+        icon: (Some("icons/hutao.bmp".to_string()), Some(&ASSETS)),
         // Recommended to start with 16:9 aspect ratio
         start_window_size: (350, 450),
         // Recommended to have minimum size with 16:9 aspect ratio
@@ -62,12 +65,16 @@ fn main()
         manage_pe(&mut page_data, &mut app_state);
 
         // === Debug ====
-        //page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
-        //page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
+        //page_data.forced_persistent_elements = Some(vec![loading()]);
+        //page_data.forced_persistent_elements = Some(vec![downloading_pe(true, false, false)]);
+        //page_data.forced_persistent_elements = Some(vec![downloading_pe(false, true, false)]);
+        //page_data.forced_persistent_elements = Some(vec![downloading_pe(false, false, true)]);
+        //page_data.forced_persistent_elements = Some(vec![using_local_proton()]);
         //page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
         //page_data.forced_persistent_elements = Some(vec![already_installed_pe(false)]);
         //page_data.forced_persistent_elements = Some(vec![download_not_succeed_pe()]);
         //page_data.forced_persistent_elements = Some(vec![download_not_succeed_proton_pe()]);
+        //page_data.forced_persistent_elements = Some(vec![download_not_succeed_proton_pe_but_has_local()]);
         //page_data.forced_persistent_elements = Some(vec![download_succeed(false)]);
         //page_data.forced_persistent_elements = Some(vec![download_succeed(true)]);
         // ==============

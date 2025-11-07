@@ -12,11 +12,11 @@ use crate::{
     ui::pages::{ButtonId::{self}, PageId}
 };
 use rust_page_system::system::{page_system::PageData, state::AppState};
-use std::thread;
+use std::{thread, time::Duration};
 
 pub static mut HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED: Option<bool> = None;
 pub static mut HOYOPLAY_DOWNLOAD_SUCCEEDED: Option<bool> = None;
-pub static mut PROTON_DOWNLOAD_SUCCEEDED: Option<bool> = None;
+pub static mut PROTON_DOWNLOAD_SUCCEEDED: Option<(bool, bool)> = None;
 pub static mut ALL_DOWNLOAD_SUCCEEDED: Option<bool> = None;
 
 pub static mut DOWNLOADING_PROTON_GE: bool = false;
@@ -24,6 +24,7 @@ pub static mut DOWNLOADING_HOYOPLAY_SETUP: bool = false;
 pub static mut DOWNLOADING_HOYOPLAY: bool = false;
 pub static mut DOWNLOADING_OTHERS: bool = false;
 
+pub static mut UMU_RUN_EXIST: Option<bool> = None;
 pub static mut PROTON_EXIST: Option<bool> = None;
 pub static mut PROTON_LATEST_EXIST: Option<bool> = None;
 pub static mut HOYOPLAY_EXIST: Option<bool> = None;
@@ -41,72 +42,106 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
         {
             unsafe 
             {
-                if STAGE == 1
+                LOADING = true;
+                thread::spawn(move || 
                 {
-                    LOADING = true;
-                    thread::spawn(move || 
+                    if STAGE == 1
                     {
+                        println!("Stage 1 Runned.");
                         // ========= UMU Logic =========
-                        let path_to_umu = check_umu();
-                        if path_to_umu.is_empty() { return };
+                        let option_path_to_umu = check_umu();
+                        if option_path_to_umu.is_some()
+                        {
+                            UMU_RUN_EXIST = Some(true);
+                        }
+                        else
+                        {
+                            LOADING = false;
+                            UMU_RUN_EXIST = Some(false);
+                            return 
+                        };
                         STAGE = 2;
+                    }
 
 
 
-                        // ========= PROTON-GE Logic =========
+                    // ========= PROTON-GE Logic =========
+                    if STAGE == 2
+                    {
+                        println!("Stage 2 Runned.");
                         if check_if_github_api_is_available()
                         {
                             GITHUB_API_AVAILABLE = Some(true);
                         }
-                        else
-                        {
-                            println!("Github API not available");
-                            LOADING = false;
-                            GITHUB_API_AVAILABLE = Some(false);
-                            return;
-                        };
                         STAGE = 3;
-                        if !check_if_proton_ge_exist(None, false)
+                    }
+                    if STAGE == 3
+                    {
+                        println!("Stage 3 Runned.");
+                        if GITHUB_API_AVAILABLE == Some(true)
                         {
-                            if GITHUB_API_AVAILABLE == Some(true)
+                            println!("case 1");
+                            if !check_if_proton_ge_exist(None, true)
                             {
+                                println!("case 2");
                                 LOADING = false;
                                 DOWNLOADING_PROTON_GE = true;
                                 download_proton_ge();
                                 DOWNLOADING_PROTON_GE = false;
                                 LOADING = true;
-                                if !check_if_proton_ge_exist(None, false)
+
+                                if !check_if_proton_ge_exist(None, true)
                                 {
+                                    println!("case 3");
                                     LOADING = false;
-                                    PROTON_DOWNLOAD_SUCCEEDED = Some(false);
+                                    PROTON_DOWNLOAD_SUCCEEDED = Some((false, true));
                                     return;
                                 }
-                                else
-                                {
-                                    PROTON_EXIST = Some(true);
-                                }
+                            }
+                        }
+                        // needed this bc ".is_none()" creates an reference, and pub mut static reference is a big no no
+                        #[allow(clippy::partialeq_to_none)]
+                        if GITHUB_API_AVAILABLE == None
+                        {
+                            println!("case 4");
+                            if check_if_proton_ge_exist(None, false)
+                            {
+                                println!("case 5");
+                                LOADING = false;
+                                PROTON_EXIST = Some(true);
+                                thread::sleep(Duration::from_secs(5));
+                                PROTON_EXIST = None;
+                                LOADING = true;
                             }
                             else
                             {
+                                println!("case 6");
+                                LOADING = false;
+                                GITHUB_API_AVAILABLE = Some(false);
                                 return;
                             }
                         }
-                        else
-                        {
-                            PROTON_EXIST = Some(true);
-                        };
                         STAGE = 4;
+                    }
 
 
 
-                        // ========= HOYOPLAY Logic =========
-                        if !check_if_hoyoplay_exist() && PROTON_EXIST == Some(true)
+                    // ========= HOYOPLAY Logic =========
+                    if STAGE == 4
+                    {
+                        println!("Stage 4 Runned.");
+                        if !check_if_hoyoplay_exist()
                         {
-                            LOADING = false;
-                            DOWNLOADING_HOYOPLAY_SETUP = true;
-                            download_hoyoplay_setup();
-                            DOWNLOADING_HOYOPLAY_SETUP = false;
-                            LOADING = true;
+                            //Download HoyoPlay Setup
+                            if !check_if_hoyoplay_setup_exist()
+                            {
+                                LOADING = false;
+                                DOWNLOADING_HOYOPLAY_SETUP = true;
+                                download_hoyoplay_setup();
+                                DOWNLOADING_HOYOPLAY_SETUP = false;
+                                LOADING = true;
+                            }
+                            //recheck if hoyoplay setup was truly installed
                             if check_if_hoyoplay_setup_exist()
                             {
                                 HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = Some(true);
@@ -119,16 +154,18 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                                 return;
                             };
 
+
+                            // Download HoyoPlay
                             let path_to_umu = check_umu();
                             if !check_if_hoyoplay_exist()
                             {
                                 LOADING = false;
                                 DOWNLOADING_HOYOPLAY = true;
-                                run_hoyoplay_setup(&path_to_umu);
+                                run_hoyoplay_setup(&path_to_umu.unwrap());
                                 DOWNLOADING_HOYOPLAY = false;
                                 LOADING = true;
                             }
-                            //recheck
+                            //recheck if hoyoplay was truly installed
                             if check_if_hoyoplay_exist()
                             {
                                 HOYOPLAY_DOWNLOAD_SUCCEEDED = Some(true);
@@ -141,26 +178,35 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                             }
                         }
                         STAGE = 5;
+                    }
 
 
 
-                        // ========= DOWNLOADING =========
+                    // ========= DOWNLOADING =========
+                    if STAGE == 5
+                    {
+                        println!("Stage 5 Runned.");
                         if check_if_proton_ge_exist(None, false) && check_if_hoyoplay_exist()
                         {
                             LOADING = false;
                             DOWNLOADING_OTHERS = true;
+                            thread::sleep(Duration::from_secs(2));
                             create_dirs();
                             create_umu_config();
                             create_proton_fixes();
                             download_icon();
                             let path_to_umu = check_umu();
-                            create_desktop_file(&path_to_umu);
+                            create_desktop_file(&path_to_umu.unwrap());
                             DOWNLOADING_OTHERS = false;
                             ALL_DOWNLOAD_SUCCEEDED = Some(true);
                             STAGE = 1;
+                        }
+                        else
+                        {
+                            ALL_DOWNLOAD_SUCCEEDED = Some(false);
                         };
-                    });
-                }
+                    }
+                });
             }
         };
 
@@ -187,12 +233,12 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         if check_if_proton_ge_exist(None, true)
                         {
                             DOWNLOADING_PROTON_GE = false;
-                            PROTON_DOWNLOAD_SUCCEEDED = Some(true);
+                            PROTON_DOWNLOAD_SUCCEEDED = Some((true, false));
                         }
                         else
                         {
                             DOWNLOADING_PROTON_GE = false;
-                            PROTON_DOWNLOAD_SUCCEEDED = Some(false);
+                            PROTON_DOWNLOAD_SUCCEEDED = Some((false, false));
                         };
                     }
                 });
@@ -230,6 +276,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 DOWNLOADING_HOYOPLAY = false;
                 DOWNLOADING_OTHERS = false;
                 
+                UMU_RUN_EXIST = None;
                 PROTON_EXIST = None;
                 PROTON_LATEST_EXIST = None;
                 HOYOPLAY_EXIST = None;
@@ -241,73 +288,20 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 LOADING = false;
             };
         };
-        if &ButtonId::Retry == button_id
+        if &ButtonId::RetryProton == button_id
         {
             unsafe 
             {
-                HOYOPLAY_DOWNLOAD_SUCCEEDED = None;
-                thread::spawn(move ||
-                {
-                    // ========= HOYOPLAY Logic =========
-                    if !check_if_hoyoplay_exist() && PROTON_EXIST == Some(true)
-                    {
-                        LOADING = false;
-                        DOWNLOADING_HOYOPLAY_SETUP = true;
-                        download_hoyoplay_setup();
-                        DOWNLOADING_HOYOPLAY_SETUP = false;
-                        LOADING = true;
-                        if check_if_hoyoplay_setup_exist()
-                        {
-                            HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = Some(true);
-                        }
-                        else 
-                        {
-                            LOADING = false;
-                            HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED = Some(false);
-                            eprintln!("Hoyoplay setup download failed");
-                            return;
-                        };
-
-                        let path_to_umu = check_umu();
-                        if !check_if_hoyoplay_exist()
-                        {
-                            LOADING = false;
-                            DOWNLOADING_HOYOPLAY = true;
-                            run_hoyoplay_setup(&path_to_umu);
-                            DOWNLOADING_HOYOPLAY = false;
-                            LOADING = true;
-                        }
-                        //recheck
-                        if check_if_hoyoplay_exist()
-                        {
-                            HOYOPLAY_DOWNLOAD_SUCCEEDED = Some(true);
-                        }
-                        else
-                        {
-                            LOADING = false;
-                            HOYOPLAY_DOWNLOAD_SUCCEEDED = Some(false);
-                            return;
-                        }
-                    }
-
-
-
-                    // ========= DOWNLOADING =========
-                    if check_if_proton_ge_exist(None, false) && check_if_hoyoplay_exist()
-                    {
-                        LOADING = false;
-                        DOWNLOADING_OTHERS = true;
-                        create_dirs();
-                        create_umu_config();
-                        create_proton_fixes();
-                        download_icon();
-                        let path_to_umu = check_umu();
-                        create_desktop_file(&path_to_umu);
-                        DOWNLOADING_OTHERS = false;
-                        ALL_DOWNLOAD_SUCCEEDED = Some(true);
-                        STAGE = 1;
-                    };
-                });
+                STAGE = 1;
+                button_action(app_state, &ButtonId::Install, page_data);
+            }
+        }
+        if &ButtonId::RetryAll == button_id
+        {
+            unsafe 
+            {
+                STAGE = 2;
+                button_action(app_state, &ButtonId::Install, page_data);
             }
         }
     }

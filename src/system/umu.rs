@@ -17,7 +17,7 @@ lazy_static!
     ];
 }
 
-pub fn check_umu() -> String
+pub fn check_umu() -> Option<String>
 {
     let app_name = "umu-run";
     // 1. iterate through our known locations
@@ -26,7 +26,7 @@ pub fn check_umu() -> String
         if Path::new(candidate).exists() 
         {
             println!("✅ '{}' exists in {} | Checked With Candidate", app_name, candidate);
-            return candidate.to_string();
+            return Some(candidate.to_string());
         }
     }
 
@@ -39,12 +39,12 @@ pub fn check_umu() -> String
             if Path::new(&full_path).exists()
             {
                 println!("✅ '{}' exists in {} | Checked With PATH", app_name, full_path.display());
-                return full_path.display().to_string();
+                return Some(full_path.display().to_string());
             }
         }
     }
-
-    panic!("{app_name} is not installed, please install it first!!!");
+ 
+    None
 }
 
 
