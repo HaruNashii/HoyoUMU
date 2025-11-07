@@ -1,12 +1,12 @@
 use crate::{
     system::{file_and_dirs::HOYOUMU_FILES, github_api::GITHUB_API_TIME_RESET},
-    ui::style::{BACKGROUND_COLOR, BLUE_COLOR, GREEN_COLOR, ORANGE_COLOR, RED_COLOR, SLATE_COLOR, TEXT_COLOR, YELLOW_COLOR}
+    ui::style::{BACKGROUND_COLOR, BLUE_COLOR, GREEN_COLOR, ORANGE_COLOR, RED_COLOR, FOREGROUND_COLOR, TEXT_COLOR, YELLOW_COLOR}
 };
 use rust_page_system::{
     PersistentElements, get_center,
     system::page_system::{Button, Page}
 };
-use sdl3::rect::Rect;
+use sdl3::{pixels::Color, rect::Rect};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PageId
@@ -33,7 +33,7 @@ pub fn download_not_succeed_proton_pe() -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 300), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
@@ -51,14 +51,14 @@ pub fn download_not_succeed_proton_pe() -> PersistentElements<PageId, ButtonId>
         (16.0, (34, 120), "Proton-GE installation didn't work \nWould you like to retry the installation?".to_string(), TEXT_COLOR)
     ]; 
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
 
 pub fn download_not_succeed_pe() -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 375), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
@@ -76,14 +76,14 @@ pub fn download_not_succeed_pe() -> PersistentElements<PageId, ButtonId>
         (16.0, (32, 50), "Hoyoplay installation didn't work \nor was installed in one custom folder, \nplease don't install the launcher on \nan custom folder, only games \n installation supports custom folders. \n \nWould you like to retry the installation?".to_string(), TEXT_COLOR)
     ]; 
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
 
 pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 300), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
@@ -98,14 +98,14 @@ pub fn github_api_unavailabe_pe() -> PersistentElements<PageId, ButtonId>
         all_texts.push((16.0, (90, 225), format!("Github API will reset in: \n   {}", github_api_time_reset), TEXT_COLOR))
     };
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_texts), images: None }
 }
 
 pub fn downloading_pe(downloading_proton: bool) -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 300), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     //===================== texts =========================
     let mut all_texts = Vec::new(); 
@@ -118,14 +118,14 @@ pub fn downloading_pe(downloading_proton: bool) -> PersistentElements<PageId, Bu
         all_texts = vec![(16.0, (55, 210), "Downloading Everything For You \n                  Please Wait <3!!!".to_string(), TEXT_COLOR)];
     };
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: None, texts: Some(all_texts), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: None, texts: Some(all_texts), images: None }
 }
 
 pub fn download_succeed(is_proton: bool) -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 300), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
@@ -142,14 +142,14 @@ pub fn download_succeed(is_proton: bool) -> PersistentElements<PageId, ButtonId>
         all_text.push((18.0, (40, 180), "       Everything Downloaded!!! \n\n    Thanks for using this app <3".to_string(), TEXT_COLOR));
     };
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_text), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_text), images: None }
 }
 
 pub fn already_installed_pe(is_proton: bool) -> PersistentElements<PageId, ButtonId>
 {
     let centered_rect = get_center((300, 300), (350, 450));
     //===================== rects =========================
-    let all_rects = vec![(SLATE_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
 
     let centered_button = get_center((200, 60), (350, 450));
     //===================== buttons =========================
@@ -166,7 +166,7 @@ pub fn already_installed_pe(is_proton: bool) -> PersistentElements<PageId, Butto
         all_text.push((18.0, (32, 180), "Everything Already Downloaded!!! \n     Thanks for using this app <3".to_string(), TEXT_COLOR));
     };
 
-    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: None, rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_text), images: None }
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: Some(all_buttons), texts: Some(all_text), images: None }
 }
 
 pub fn main_page() -> Page<PageId, ButtonId>
