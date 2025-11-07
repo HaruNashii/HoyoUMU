@@ -1,7 +1,7 @@
 use crate::{
-    actions::buttons_actions::{button_action, DOWNLOADING_FLAG, DOWNLOAD_SUCCEEDED},
+    actions::buttons_actions::button_action,
     system::setup_rps::populate_page_data,
-    ui::pages::{already_installed_pe, download_not_succeed_pe, download_not_succeed_proton_pe, download_succeed, downloading_pe, PageId}
+    ui::{manage_pe::manage_pe, pages::PageId}
 };
 use lazy_static::lazy_static;
 use rust_page_system::{
@@ -32,7 +32,8 @@ pub mod ui;
 fn main()
 {
     list_embedded(&ASSETS);
-    let window_config = WindowConfig {
+    let window_config = WindowConfig 
+    {
         window_title: "HoyoUMU".to_string(),
         icon: (Some("icons/hoyoumu_icon.bmp".to_string()), Some(&ASSETS)),
         // Recommended to start with 16:9 aspect ratio
@@ -58,6 +59,8 @@ fn main()
         //using (900 / your_refresh_rate) to a very crispy experience
         std::thread::sleep(Duration::from_millis(900 / get_monitor_refresh_rate()));
 
+        manage_pe(&mut page_data, &mut app_state);
+
         // === Debug ====
         //page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
         //page_data.forced_persistent_elements = Some(vec![downloading_pe(false)]);
@@ -68,48 +71,6 @@ fn main()
         //page_data.forced_persistent_elements = Some(vec![download_succeed(false)]);
         //page_data.forced_persistent_elements = Some(vec![download_succeed(true)]);
         // ==============
-
-        if let Some((downloading_flag, is_proton)) = unsafe{DOWNLOADING_FLAG}
-        {
-            if downloading_flag && is_proton
-            {
-                page_data.forced_persistent_elements = Some(vec![downloading_pe(true)]);
-                app_state.all_events_disable = downloading_flag;
-            }
-            if downloading_flag && !is_proton
-            {
-                page_data.forced_persistent_elements = Some(vec![downloading_pe(false)])
-            }
-            if !downloading_flag && is_proton
-            {
-                page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
-            }
-            if !downloading_flag && !is_proton
-            {
-                page_data.forced_persistent_elements = Some(vec![already_installed_pe(true)]);
-            }
-        }
-        else
-        {
-            app_state.all_events_disable = false;
-        };
-
-        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && !download_succeeded && !is_proton
-        {
-            page_data.forced_persistent_elements = Some(vec![download_not_succeed_pe()]);
-        };
-
-        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && !download_succeeded && is_proton
-        {
-            page_data.forced_persistent_elements = Some(vec![download_not_succeed_proton_pe()]);
-        };
-
-        if let Some((download_succeeded, is_proton)) = unsafe { DOWNLOAD_SUCCEEDED } && download_succeeded
-        {
-            page_data.forced_persistent_elements = Some(vec![download_succeed(is_proton)]);
-            unsafe { DOWNLOAD_SUCCEEDED = None };
-            unsafe { DOWNLOADING_FLAG = None };
-        };
 
 
         input_handler.handle_input(&mut window_modules.event_pump, &mut window_modules.clipboard_system, &mut page_data, &mut app_state, &mut button_action);

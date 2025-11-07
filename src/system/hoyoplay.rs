@@ -7,6 +7,16 @@ use std::{
     process::{Command, Stdio}
 };
 
+pub fn check_if_hoyoplay_setup_exist() -> bool
+{
+    if fs::exists(Path::new(&HOYOUMU_FILES[3])).unwrap()
+    {
+        println!("✅ Hoyoplay setup is already installed!");
+        return true;
+    };
+    false
+}
+
 pub fn check_if_hoyoplay_exist() -> bool
 {
     if fs::exists(Path::new(&HOYOUMU_FILES[8])).unwrap()
@@ -19,10 +29,7 @@ pub fn check_if_hoyoplay_exist() -> bool
 
 pub fn run_hoyoplay_setup(path_to_umu_run: &String)
 {
-    if check_if_hoyoplay_exist()
-    {
-        return;
-    };
+    if check_if_hoyoplay_exist() { return; };
     let command_str = format!("{} {}", path_to_umu_run, &HOYOUMU_FILES[3]);
     let hoyoplay_setup_status = Command::new("sh").arg("-c").arg(&command_str).stdout(Stdio::null()).stderr(Stdio::null()).status().expect("❌ Failed to execute Hoyoplay setup");
     if hoyoplay_setup_status.success()
@@ -43,7 +50,7 @@ async fn setup_client_for_hoyoplay() -> Bytes
 }
 
 #[tokio::main]
-pub async fn download_hoyoplay()
+pub async fn download_hoyoplay_setup()
 {
     if !fs::exists(&HOYOUMU_FILES[3]).unwrap()
     {

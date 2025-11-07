@@ -26,7 +26,8 @@ pub enum ButtonId
     Unistall,
     ConfirmUninstall,
     NoConfirmUninstall,
-    ConfirmPopUP
+    ConfirmPopUP,
+    Retry
 }
 
 pub fn download_not_succeed_proton_pe() -> PersistentElements<PageId, ButtonId>
@@ -65,7 +66,7 @@ pub fn download_not_succeed_pe() -> PersistentElements<PageId, ButtonId>
     let all_buttons = vec!
     [
         Button { enabled: true, color: ORANGE_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 150, centered_button.w, centered_button.h), radius: 10, id: ButtonId::ConfirmPopUP, has_transition: None },
-        Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 50, centered_button.w, centered_button.h), radius: 10, id: ButtonId::Install, has_transition: None }
+        Button { enabled: true, color: GREEN_COLOR, rect: Rect::new(centered_button.pos_x, centered_button.pos_y + 50, centered_button.w, centered_button.h), radius: 10, id: ButtonId::Retry, has_transition: None }
     ];
 
     //===================== texts =========================
@@ -120,12 +121,25 @@ pub fn downloading_pe(downloading_proton: bool) -> PersistentElements<PageId, Bu
 
     let centered_image = get_center((50, 50), (350, 450));
     //===================== images =========================
-    let all_images = vec!
-    [
-        ((centered_image.pos_x, 300), (centered_image.w, centered_image.h), "gifs/herta-kurukuru.gif".to_string())
-    ];
+    let all_images = vec![((centered_image.pos_x, 300), (centered_image.w, centered_image.h), "gifs/herta-kurukuru.gif".to_string())];
 
     PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: None, texts: Some(all_texts), images: Some(all_images) }
+}
+
+pub fn loading() -> PersistentElements<PageId, ButtonId>
+{
+    let centered_rect = get_center((300, 300), (350, 450));
+    //===================== rects =========================
+    let all_rects = vec![(FOREGROUND_COLOR, (Rect::new(centered_rect.pos_x, centered_rect.pos_y, centered_rect.w, centered_rect.h), 5))];
+
+    //===================== texts =========================
+    let all_text = vec![(18.0, (150, 180), "Loading...".to_string(), TEXT_COLOR)];
+
+    let centered_image = get_center((50, 50), (350, 450));
+    //===================== images =========================
+    let all_images = vec![((centered_image.pos_x, 300), (centered_image.w, centered_image.h), "gifs/herta-kurukuru.gif".to_string())];
+
+    PersistentElements { id: PageId::DownloadingPersistentElements, background_color: Some(Color::RGBA(0, 0, 0, 155)), rects: Some(all_rects), buttons: None, texts: Some(all_text), images: Some(all_images) }
 }
 
 pub fn download_succeed(is_proton: bool) -> PersistentElements<PageId, ButtonId>

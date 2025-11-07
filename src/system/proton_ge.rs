@@ -7,7 +7,7 @@ use std::{
     path::{Path, PathBuf} 
 };
 use tar::Archive;
-use crate::system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES};
+use crate::{actions::buttons_actions::GITHUB_API_AVAILABLE, system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES}};
 
 const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
 
@@ -66,7 +66,7 @@ async fn get_online_data(response: &str) -> (String, String, String)
     panic!("No .tar.gz file found in the release.");
 }
 
-pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>) -> bool
+pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_latest: bool) -> bool
 {
     let received_version = if let Some(result) = option_received_version
     {
@@ -111,12 +111,18 @@ pub fn check_if_latest_proton_ge_exist(option_received_version: Option<&String>)
                 println!("✅ Your Proton-GE Version: '{}' Is Already The Latest", received_version);
                 return true;
             }
-            else
+            else if unsafe{GITHUB_API_AVAILABLE == Some(true)}
             {
-                // ==== Remove ProtonLatest if existing version is older ====
-                if fs::exists(&HOYOUMU_DIRS[1]).unwrap() { fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap(); };
-                println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
+                    // ==== Remove ProtonLatest if existing version is older ====
+                    if fs::exists(&HOYOUMU_DIRS[1]).unwrap() { fs::remove_dir_all(&HOYOUMU_DIRS[1]).unwrap(); };
+                    println!("✅ Removed old {}, to install the new {}", version_from_file, received_version);
             }
+            else 
+            {
+                if only_latest { return false; };
+                println!("✅ Github API Unavailable, So Using Your Proton-GE Version: '{}'", received_version);
+                return true;
+            };
         }
     }
     else
@@ -131,7 +137,7 @@ async fn download_online_data(client: Client, received_version: &String, receive
     let file_path = &HOYOUMU_DIRS[1];
 
     // ===== Read file content =====
-    if check_if_latest_proton_ge_exist(Some(received_version))
+    if check_if_proton_ge_exist(Some(received_version), true)
     {
         return;
     };
