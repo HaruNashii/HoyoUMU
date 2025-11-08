@@ -7,6 +7,28 @@
 <br/>
 <br/>
 
+# 📸 Showcase
+<img width="475" height="603" alt="image" src="https://github.com/user-attachments/assets/1a419628-84d9-4a84-b621-7e68c5988370" />
+<details><summary> Others Pages </summary>
+  
+- uninstall page
+<img width="475" height="603" alt="image" src="https://github.com/user-attachments/assets/ff528d5a-b660-49bd-ad37-5929e38e8a32" />
+
+- proton-ge updated
+<img width="475" height="603" alt="image" src="https://github.com/user-attachments/assets/4236539a-8aa9-4221-8454-b44f0002b999" />
+
+- everything downloaded
+<img width="475" height="603" alt="image" src="https://github.com/user-attachments/assets/5d04506b-8838-488f-84a9-5cb4fbf3453b" />
+
+there is much more, download the app and check it out <3
+</details>
+
+
+---
+
+<br/>
+<br/>
+
 ## 🧪 Games Tested
 - ✅ Genshin Impact (Runned Without Any Flaws)
 - ✅ Zenless Zone Zero (Runned Without Any Flaws)
