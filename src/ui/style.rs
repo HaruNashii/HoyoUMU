@@ -1,5 +1,7 @@
 use sdl3::pixels::Color;
 
+
+
 pub const BACKGROUND_COLOR: Color = Color::RGB(34, 34, 38);
 pub const FOREGROUND_COLOR: Color = Color::RGB(54, 54, 58);
 pub const TEXT_COLOR: Color = Color::RGB(255, 255, 255);

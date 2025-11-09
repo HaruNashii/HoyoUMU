@@ -1,28 +1,21 @@
-use crate::{
-    actions::buttons_actions::GITHUB_API_AVAILABLE,
-    system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES}
-};
+use crate::{actions::buttons_actions::GITHUB_API_AVAILABLE, system::file_and_dirs::{HOYOUMU_DIRS, HOYOUMU_FILES}};
+use std::{fs::{self, File}, io::Cursor, path::{Path, PathBuf}};
 use flate2::read::GzDecoder;
-use reqwest::*;
 use serde_json::Value;
-use std::{
-    fs::{self, File},
-    io::Cursor,
-    path::{Path, PathBuf}
-};
 use tar::Archive;
+use reqwest::*;
+
+
 
 const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
 
+
+
 async fn setup_client_for_proton_ge() -> (Client, String)
 {
-    // GitHub API URL
     let url = "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest";
-
-    // Make the GET request (GitHub requires a User-Agent)
     let client = Client::new();
     let response = client.get(url).header("User-Agent", "rust-reqwest").send().await.unwrap().text().await.unwrap();
-    //println!("✅ Client Created");
     (client, response)
 }
 
@@ -38,8 +31,7 @@ async fn get_online_data(response: &str) -> (String, String, String)
     {
         for asset in assets
         {
-            if let Some(name) = asset["name"].as_str()
-                && name.ends_with(".tar.gz")
+            if let Some(name) = asset["name"].as_str() && name.ends_with(".tar.gz")
             {
                 received_name = name.to_string();
                 received_version = name.replace(".tar.gz", "");
@@ -53,8 +45,7 @@ async fn get_online_data(response: &str) -> (String, String, String)
     {
         for asset in assets
         {
-            if let Some(url) = asset["browser_download_url"].as_str()
-                && url.ends_with(".tar.gz")
+            if let Some(url) = asset["browser_download_url"].as_str() && url.ends_with(".tar.gz")
             {
                 received_url = url.to_string();
             }
@@ -63,7 +54,6 @@ async fn get_online_data(response: &str) -> (String, String, String)
 
     if !received_url.is_empty() && !received_name.is_empty()
     {
-        //println!("✅ Online Data Received");
         return (received_name, received_version, received_url);
     }
     panic!("No .tar.gz file found in the release.");
@@ -89,8 +79,7 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
         {
             for asset in assets
             {
-                if let Some(name) = asset["name"].as_str()
-                    && name.ends_with(".tar.gz")
+                if let Some(name) = asset["name"].as_str() && name.ends_with(".tar.gz")
                 {
                     received_version = name.replace(".tar.gz", "");
                 }
@@ -107,7 +96,7 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
         // ===== Get string after the first space =====
         if let Some((_, after_space)) = content.split_once(' ')
         {
-            let version_from_file = after_space.trim(); // remove extra spaces/newlines
+            let version_from_file = after_space.trim(); 
             // ===== Compare with another string =====
             if version_from_file == received_version
             {

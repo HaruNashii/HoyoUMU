@@ -3,6 +3,8 @@ use bytes::Bytes;
 use reqwest::Client;
 use std::fs;
 
+
+
 async fn setup_client_for_icon() -> Bytes
 {
     let image_url = "https://act-webstatic.hoyoverse.com/puzzle/hyp/pz_Bur_m6Btc7/resource/puzzle/2024/10/21/b9992eaa38d4b36641accee82ede7bd3_3188319471762169697.png";
