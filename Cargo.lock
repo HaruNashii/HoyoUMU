@@ -1431,9 +1431,9 @@ checksum = "5a2d2f3481209a6b42eec2fbb49063fb4e8d35b57023401495d4fe0f85c817f0"
 
 [[package]]
 name = "rust_page_system"
-version = "0.3.8"
+version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6289c67270ad14b006cc6c4cb2c0653c56818f79c6e242a5219f8fb560a9d563"
+checksum = "084bdf5d1337fa31061a7e2f18c9e4c49555f991ba09a8eb8be466b0f6508242"
 dependencies = [
  "display-info",
  "fontconfig",
