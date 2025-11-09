@@ -1,11 +1,16 @@
 use crate::system::file_and_dirs::HOYOUMU_FILES;
+use std::{fs, path::Path};
 use indoc::indoc;
-use std::fs;
 
 
 
 pub fn create_proton_fixes()
 {
+    if let Some(parent) = Path::new(&HOYOUMU_FILES[2]).parent() 
+    {
+        fs::create_dir_all(parent).unwrap();
+    }
+
     if !fs::exists(&HOYOUMU_FILES[2]).unwrap()
     {
 

@@ -3,25 +3,6 @@
 version = 4
 
 [[package]]
-name = "HoyoUMU"
-version = "0.1.2"
-dependencies = [
- "bytes",
- "chrono",
- "flate2",
- "fontconfig",
- "include_dir",
- "indoc",
- "lazy_static",
- "reqwest",
- "rust_page_system",
- "sdl3",
- "serde_json",
- "tar",
- "tokio",
-]
-
-[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -477,6 +458,25 @@ name = "hashbrown"
 version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d"
+
+[[package]]
+name = "hoyoumu"
+version = "0.1.2"
+dependencies = [
+ "bytes",
+ "chrono",
+ "flate2",
+ "fontconfig",
+ "include_dir",
+ "indoc",
+ "lazy_static",
+ "reqwest",
+ "rust_page_system",
+ "sdl3",
+ "serde_json",
+ "tar",
+ "tokio",
+]
 
 [[package]]
 name = "http"
