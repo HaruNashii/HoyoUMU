@@ -151,6 +151,6 @@ After installation, you can find **HoYoPlay** directly in your app launcher — 
 <br/>
 
 ### 🤝 Contributions
-Just me for now 0-0
+My wife, helped me with emotional support
 
 ---
