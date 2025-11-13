@@ -1,4 +1,4 @@
-use crate::{system::{github_api::GITHUB_API_TIME_RESET, setup_rps::{ButtonId, PageId}}, ui::style::{FOREGROUND_COLOR, GREEN_COLOR, RED_COLOR, TEXT_COLOR}};
+use crate::{system::setup_rps::{ButtonId, PageId}, ui::style::{FOREGROUND_COLOR, GREEN_COLOR, RED_COLOR, TEXT_COLOR}, helpers::github_api::GITHUB_API_TIME_RESET };
 use rust_page_system::{get_center, PersistentElements, system::page_system::Button};
 use sdl3::{pixels::Color, rect::Rect};
 
