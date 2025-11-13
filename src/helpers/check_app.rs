@@ -1,7 +1,6 @@
-use crate::{HOME_DIR, system::file_and_dirs::HOYOUMU_FILES};
-use std::{env, fs, path::Path};
+use crate::HOME_DIR;
+use std::{env, path::Path};
 use lazy_static::lazy_static;
-use indoc::indoc;
 
 
 
@@ -26,7 +25,7 @@ pub fn check_app_availability(app_name: String) -> Option<String>
     // 1. iterate through our known locations
     for candidate in &*BIN_PATHS
     {
-        let new_candidate = format!("{}/umu-run", candidate);
+        let new_candidate = format!("{}/{}", candidate, app_name);
         if Path::new(&new_candidate).exists()
         {
             println!("✅ '{}' exists in {} | Checked With Candidate", app_name, new_candidate);
@@ -48,40 +47,6 @@ pub fn check_app_availability(app_name: String) -> Option<String>
         }
     }
 
+    println!("'{}'  Doesn't exist in PATH", app_name);
     None
-}
-
-
-pub fn create_umu_config()
-{
-    if !fs::exists(&HOYOUMU_FILES[1]).unwrap()
-    {
-        // ==== Create the umu config content ====
-        let from = String::from("'");
-        let to = String::from('"');
-
-
-//this have weird readability but there is nothing i can do :(
-let content = indoc! 
-{
-r#"
-[umu]
-prefix = '~/.config/hoyoplay-umu/wine_prefix'
-proton = '~/.config/hoyoplay-umu/ProtonLatest'
-game_id = 'hoyoumu'
-exe = '~/.config/hoyoplay-umu/wine_prefix/drive_c/Program Files/HoYoPlay/launcher.exe'
-
-[env]
-PROTON_VERB = 'waitforexitandrun'
-"#
-}.replace(&from, &to);
-
-
-        fs::write(&HOYOUMU_FILES[1], content).unwrap();
-        println!("✅ Created UMU config in: {}", &HOYOUMU_FILES[1]);
-    }
-    else
-    {
-        println!("✅ UMU config already created in: {}", &HOYOUMU_FILES[1]);
-    }
 }

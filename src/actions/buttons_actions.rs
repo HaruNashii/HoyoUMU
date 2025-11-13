@@ -1,4 +1,4 @@
-use crate::{system::{setup_rps::{PageId, ButtonId}, create_desktop_file::create_desktop_file, create_protonfixes::create_proton_fixes, download_icon::download_icon, file_and_dirs::{create_dirs, remove_dirs, remove_files}, github_api::check_if_github_api_is_available, hoyoplay::{check_if_hoyoplay_exist, check_if_hoyoplay_setup_exist, download_hoyoplay_setup, run_hoyoplay_setup}, proton_ge::{check_if_proton_ge_exist, download_proton_ge}, umu::{check_umu, create_umu_config} }};
+use crate::{helpers::check_app::check_app_availability, system::{create_desktop_file::create_desktop_file, create_protonfixes::create_proton_fixes, download_icon::download_icon, file_and_dirs::{create_dirs, remove_dirs, remove_files}, github_api::check_if_github_api_is_available, hoyoplay::{check_if_hoyoplay_exist, check_if_hoyoplay_setup_exist, download_hoyoplay_setup, run_hoyoplay_setup}, proton_ge::{check_if_proton_ge_exist, download_proton_ge}, setup_rps::{ButtonId, PageId}, umu::create_umu_config }};
 use std::{thread, time::Duration, sync::{Mutex, atomic::{AtomicBool, AtomicU8, Ordering}}};
 use rust_page_system::system::{page_system::PageData, state::AppState};
 use lazy_static::lazy_static;
@@ -49,7 +49,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 if STAGE.load(Ordering::SeqCst) == 1
                 {
                     println!("Stage 1 Runned.");
-                    let option_path_to_umu = check_umu();
+                    let option_path_to_umu = check_app_availability("umu-run".to_string());
                     if option_path_to_umu.is_some()
                     {
                         *UMU_RUN_EXIST.lock().unwrap() = Some(true);
@@ -146,7 +146,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         };
 
                         // Download HoyoPlay
-                        let path_to_umu = check_umu();
+                        let path_to_umu = check_app_availability("umu-run".to_string());
                         if !check_if_hoyoplay_exist()
                         {
                             LOADING.store(false, Ordering::SeqCst);
@@ -184,7 +184,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         create_umu_config();
                         create_proton_fixes();
                         download_icon();
-                        let path_to_umu = check_umu();
+                        let path_to_umu = check_app_availability("umu-run".to_string());
                         create_desktop_file(&path_to_umu.unwrap());
                         DOWNLOADING_OTHERS.store(false, Ordering::SeqCst);
                         *ALL_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(true);

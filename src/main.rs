@@ -18,6 +18,7 @@ lazy_static! { pub static ref HOME_DIR: String = env::home_dir().unwrap().displa
 
 pub mod actions;
 pub mod system;
+pub mod helpers;
 pub mod ui;
 
 
