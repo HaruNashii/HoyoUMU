@@ -28,7 +28,7 @@ pub fn check_if_hoyoplay_exist() -> bool
 pub fn run_hoyoplay_setup(path_to_umu_run: &String)
 {
     if check_if_hoyoplay_exist() { return };
-    let command_str = format!("{} {}", path_to_umu_run, &HOYOUMU_FILES[3]);
+    let command_str = format!("{} --config {}", path_to_umu_run, &HOYOUMU_FILES[8]);
     let hoyoplay_setup_status = Command::new("sh").arg("-c").arg(&command_str).stdout(Stdio::null()).stderr(Stdio::null()).status().expect("❌ Failed to execute Hoyoplay setup");
     if hoyoplay_setup_status.success()
     {

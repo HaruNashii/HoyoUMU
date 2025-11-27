@@ -125,7 +125,7 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
     }
     else
     {
-        println!("⚠️ Valid Proton-GE Installation Not Found, Downloading New One...");
+        println!("⚠️ Valid Proton-GE Installation Not Found");
     }
     false
 }
@@ -141,6 +141,7 @@ async fn download_online_data(client: Client, received_version: &String, receive
     };
 
     // ==== Download tarball ====
+    println!("✅ Downloading The Latest Proton-GE");
     let archive_path = format!("{}/{}", TMPWORKINGDIRECTORY, "ProtonLatest.tar.gz");
     if !fs::exists(&archive_path).unwrap()
     {

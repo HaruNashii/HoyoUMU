@@ -54,15 +54,45 @@ pub fn check_app_availability(app_name: String) -> Option<String>
 
 pub fn create_umu_config()
 {
+    if !fs::exists(&HOYOUMU_FILES[8]).unwrap()
+    {
+        // ==== Create the umu config content ====
+        let from = String::from("'");
+        let to = String::from('"');
+
+//this have weird readability but there is nothing i can do :(
+let content_2 = indoc! 
+{
+r#"
+[umu]
+prefix = '~/.config/hoyoplay-umu/wine_prefix'
+proton = '~/.config/hoyoplay-umu/ProtonLatest'
+game_id = 'hoyoumu'
+exe = '~/.config/hoyoplay-umu/Hoyoplay_setup.exe'
+
+[env]
+PROTON_VERB = 'waitforexitandrun'
+"#
+}.replace(&from, &to);
+
+        fs::write(&HOYOUMU_FILES[8], content_2).unwrap();
+        println!("✅ Created UMU Setup config in: {}", &HOYOUMU_FILES[8]);
+    }
+    else
+    {
+        println!("✅ UMU Setup config already created in: {}", &HOYOUMU_FILES[8]);
+    }
+
+
+
     if !fs::exists(&HOYOUMU_FILES[1]).unwrap()
     {
         // ==== Create the umu config content ====
         let from = String::from("'");
         let to = String::from('"');
 
-
 //this have weird readability but there is nothing i can do :(
-let content = indoc! 
+let content_1 = indoc! 
 {
 r#"
 [umu]
@@ -76,8 +106,7 @@ PROTON_VERB = 'waitforexitandrun'
 "#
 }.replace(&from, &to);
 
-
-        fs::write(&HOYOUMU_FILES[1], content).unwrap();
+        fs::write(&HOYOUMU_FILES[1], content_1).unwrap();
         println!("✅ Created UMU config in: {}", &HOYOUMU_FILES[1]);
     }
     else

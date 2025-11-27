@@ -49,6 +49,9 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 if STAGE.load(Ordering::SeqCst) == 1
                 {
                     println!("Stage 1 Runned.");
+                    create_dirs();
+                    create_umu_config();
+                    create_proton_fixes();
                     let option_path_to_umu = check_app_availability("umu-run".to_string());
                     if option_path_to_umu.is_some()
                     {
@@ -180,9 +183,6 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         LOADING.store(false, Ordering::SeqCst);
                         DOWNLOADING_OTHERS.store(true, Ordering::SeqCst);
                         thread::sleep(Duration::from_secs(2));
-                        create_dirs();
-                        create_umu_config();
-                        create_proton_fixes();
                         download_icon();
                         let path_to_umu = check_app_availability("umu-run".to_string());
                         create_desktop_file(&path_to_umu.unwrap());

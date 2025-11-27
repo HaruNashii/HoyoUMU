@@ -16,7 +16,7 @@ lazy_static!
         format!("{}/.config/protonfixes/localfixes", *HOME_DIR), 
         format!("{}/.config/hoyoplay-umu/icons", *HOME_DIR)
     ];
-    pub static ref HOYOUMU_FILES: [String; 8] = 
+    pub static ref HOYOUMU_FILES: [String; 9] = 
     [
         format!("{}/hoyoplay_icon.png", HOYOUMU_DIRS[6]), 
         format!("{}/umu_config.toml", HOYOUMU_DIRS[2]), 
@@ -26,6 +26,7 @@ lazy_static!
         format!("{}/Hoyoplay_gamemode.desktop", HOYOUMU_DIRS[4]), 
         format!("{}/Hoyoplay.desktop", HOYOUMU_DIRS[4]), 
         format!("{}/drive_c/Program Files/HoYoPlay/launcher.exe", HOYOUMU_DIRS[3]), 
+        format!("{}/umu_setup_config.toml", HOYOUMU_DIRS[2]), 
     ];
 }
 
