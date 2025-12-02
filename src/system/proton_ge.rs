@@ -7,7 +7,7 @@ use reqwest::*;
 
 
 
-const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
+pub const TMPWORKINGDIRECTORY: &str = "/tmp/proton-ge-custom";
 
 
 
@@ -179,30 +179,55 @@ async fn download_online_data(client: Client, received_version: &String, receive
 
     let mut folders: Vec<(PathBuf, PathBuf)> = vec![(source.to_path_buf(), destination.to_path_buf())];
     let mut index = 0;
-
-    while index < folders.len()
+    while index < folders.len() 
     {
         let (src, dst) = folders[index].clone();
-        if src.exists()
+        if src.exists() 
         {
-            for entry in fs::read_dir(&src).unwrap()
+            let entries = match fs::read_dir(&src) 
             {
-                let entry = entry.unwrap();
+                Ok(e) => e,
+                Err(e) => 
+                {
+                    eprintln!("❌ Failed to read {}: {}", src.display(), e);
+                    index += 1;
+                    continue;
+                }
+            };
+
+            for entry in entries 
+            {
+                let entry = match entry 
+                {
+                    Ok(e) => e,
+                    Err(e) => 
+                    {
+                        eprintln!("❌ Failed to read entry in {}: {}", src.display(), e);
+                        continue;
+                    }
+                };
+
                 let from = entry.path();
                 let to = dst.join(entry.file_name());
-                if from.is_dir()
+
+                if from.is_dir() 
                 {
-                    fs::create_dir_all(&to).unwrap();
+                    if let Err(e) = fs::create_dir_all(&to) 
+                    {
+                        eprintln!("❌ Failed to create directory {}: {}", to.display(), e);
+                        continue;
+                    }
                     folders.push((from, to));
-                }
-                else
+                } 
+                else if let Err(e) = fs::copy(&from, &to) 
                 {
-                    fs::copy(&from, &to).unwrap();
+                    eprintln!("❌ Failed to copy {} → {}: {}", from.display(), to.display(), e);
                 }
             }
         }
         index += 1;
     }
+
     println!("✅ Moved {} to {}", source.display(), destination.display());
 
     // ==== Remove tmp directory ====

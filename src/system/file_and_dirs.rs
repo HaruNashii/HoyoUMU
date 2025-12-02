@@ -1,4 +1,4 @@
-use crate::{actions::buttons_actions::UNINSTALL_SUCCEEDED, HOME_DIR};
+use crate::{HOME_DIR, actions::buttons_actions::UNINSTALL_SUCCEEDED, system::proton_ge::TMPWORKINGDIRECTORY};
 use std::fs;
 use lazy_static::lazy_static;
 
@@ -6,7 +6,7 @@ use lazy_static::lazy_static;
 
 lazy_static! 
 {
-    pub static ref HOYOUMU_DIRS: [String; 7] = 
+    pub static ref HOYOUMU_DIRS: [String; 8] = 
     [
         format!("{}/.config/hoyoplay-umu", *HOME_DIR), 
         format!("{}/.config/hoyoplay-umu/ProtonLatest", *HOME_DIR), 
@@ -14,7 +14,8 @@ lazy_static!
         format!("{}/.config/hoyoplay-umu/wine_prefix", *HOME_DIR), 
         format!("{}/.local/share/applications", *HOME_DIR), 
         format!("{}/.config/protonfixes/localfixes", *HOME_DIR), 
-        format!("{}/.config/hoyoplay-umu/icons", *HOME_DIR)
+        format!("{}/.config/hoyoplay-umu/icons", *HOME_DIR),
+        TMPWORKINGDIRECTORY.to_string()
     ];
     pub static ref HOYOUMU_FILES: [String; 9] = 
     [
