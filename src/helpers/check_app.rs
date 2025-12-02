@@ -47,6 +47,6 @@ pub fn check_app_availability(app_name: String) -> Option<String>
         }
     }
 
-    println!("'{}'  Doesn't exist in PATH", app_name);
+    println!("❌ '{}'  Doesn't exist in PATH", app_name);
     None
 }

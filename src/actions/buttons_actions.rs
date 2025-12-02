@@ -48,7 +48,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 // Stage 1: UMU Logic
                 if STAGE.load(Ordering::SeqCst) == 1
                 {
-                    println!("Stage 1 Runned.");
+                    println!("🏃 Stage 1 Runned.");
                     create_dirs();
                     create_umu_config();
                     create_proton_fixes();
@@ -70,7 +70,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 // Stage 2: GitHub API Logic
                 if STAGE.load(Ordering::SeqCst) == 2
                 {
-                    println!("Stage 2 Runned.");
+                    println!("🏃 Stage 2 Runned.");
                     if check_if_github_api_is_available()
                     {
                         *GITHUB_API_AVAILABLE.lock().unwrap() = Some(true);
@@ -82,7 +82,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 // Stage 3: Proton-GE Logic
                 if STAGE.load(Ordering::SeqCst) == 3
                 {
-                    println!("Stage 3 Runned.");
+                    println!("🏃 Stage 3 Runned.");
                     let github_api_available = *GITHUB_API_AVAILABLE.lock().unwrap();
                     if github_api_available == Some(true) && !check_if_proton_ge_exist(None, true)
                     {
@@ -123,7 +123,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 // Stage 4: HOYOPLAY Logic
                 if STAGE.load(Ordering::SeqCst) == 4
                 {
-                    println!("Stage 4 Runned.");
+                    println!("🏃 Stage 4 Runned.");
                     if !check_if_hoyoplay_exist()
                     {
                         //Download HoyoPlay Setup
@@ -144,7 +144,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                         {
                             LOADING.store(false, Ordering::SeqCst);
                             *HOYOPLAY_SETUP_DOWNLOAD_SUCCEEDED.lock().unwrap() = Some(false);
-                            eprintln!("Hoyoplay setup download failed");
+                            eprintln!("❌ Hoyoplay setup download failed");
                             return;
                         };
 
@@ -177,7 +177,7 @@ pub fn button_action(app_state: &mut AppState<PageId, ButtonId>, button_id: &But
                 // Stage 5: final tasks logic
                 if STAGE.load(Ordering::SeqCst) == 5
                 {
-                    println!("Stage 5 Runned.");
+                    println!("🏃 Stage 5 Runned.");
                     if check_if_proton_ge_exist(None, false) && check_if_hoyoplay_exist()
                     {
                         LOADING.store(false, Ordering::SeqCst);

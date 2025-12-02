@@ -37,7 +37,7 @@ pub fn create_dirs()
 {
     for path in &*HOYOUMU_DIRS
     {
-        fs::create_dir_all(path).expect("Failed While Creating Folders");
+        fs::create_dir_all(path).expect("❌ Failed While Creating Folders");
     }
     println!("✅ All directories created");
 }
@@ -47,7 +47,7 @@ pub fn remove_dirs()
     for path in &*HOYOUMU_DIRS
     {
         if path == &HOYOUMU_DIRS[4] { continue };
-        println!("removing dir: {}", path);
+        println!("📣 removing dir: {}", path);
         let _ = fs::remove_dir_all(path);
     }
     *UNINSTALL_SUCCEEDED.lock().unwrap() = Some(true);
@@ -58,7 +58,7 @@ pub fn remove_files()
 {
     for file in &*HOYOUMU_FILES
     {
-        println!("removing file: {}", file);
+        println!("📣 removing file: {}", file);
         let _ = fs::remove_file(file);
     }
     println!("✅ All files removed");

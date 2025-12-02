@@ -19,7 +19,7 @@ pub async fn fetch_github_api(url: &str) -> Result<Value, Box<dyn std::error::Er
     // Check for rate-limit headers
     if let Some(remaining) = res.headers().get("x-ratelimit-remaining")
     {
-        println!("Github Api Call Remaining: {}", remaining.to_str().unwrap());
+        println!("📣 Github Api Call Remaining: {}", remaining.to_str().unwrap());
         if remaining.to_str().unwrap().parse::<i32>().unwrap() <= 10
         {
             if let Some(reset_header) = res.headers().get("X-RateLimit-Reset")
