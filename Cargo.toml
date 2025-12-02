@@ -5,9 +5,12 @@ edition = "2024"
 
 [profile.dev]
 incremental = true
+panic = "abort"
+
 
 [profile.release]
 incremental = false
+panic = "abort"
 
 [dependencies]
 fontconfig = "0.10.0"

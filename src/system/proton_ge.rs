@@ -145,7 +145,7 @@ async fn download_online_data(client: Client, received_version: &String, receive
     let archive_path = format!("{}/{}", TMPWORKINGDIRECTORY, "ProtonLatest.tar.gz");
     if !fs::exists(&archive_path).unwrap()
     {
-        let bytes = client.get(received_url).header("User-Agent", "rust-reqwest").send().await.unwrap().bytes().await.unwrap();
+        let bytes = client.get(received_url).header("User-Agent", "rust-reqwest").send().await.expect("❌ Error Getting Proton-GE Data").bytes().await.expect("❌ Error Downloading Proton-GE");
         let mut file = File::create(&archive_path).unwrap();
         std::io::copy(&mut Cursor::new(bytes), &mut file).unwrap();
         println!("✅ Downloaded {} to: {}", received_version, archive_path);
