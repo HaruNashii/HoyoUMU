@@ -98,7 +98,8 @@ pub fn check_if_proton_ge_exist(option_received_version: Option<&String>, only_l
         {
             let version_from_file = after_space.trim(); 
             // ===== Compare with another string =====
-            if version_from_file == received_version
+            println!("📣 Proton-GE Current Version: {:?}, Proton-GE Newest Version: {:?}", version_from_file.get(0..14), received_version.get(0..14));
+            if version_from_file.get(0..14) == received_version.get(0..14)
             {
                 println!("✅ Your Proton-GE Version: '{}' Is Already The Latest", received_version);
                 return true;
