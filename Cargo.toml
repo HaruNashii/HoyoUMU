@@ -14,7 +14,7 @@ panic = "abort"
 
 [dependencies]
 fontconfig = "0.10.0"
-sdl3 = { version = "0.16.2", features = ["build-from-source", "ttf"] }
+sdl3 = { version = "0.16.4", features = ["build-from-source", "ttf"] }
 rust_page_system = "0.3.9"
 lazy_static = "1.5.0"
 reqwest = { version = "0.12.24", features = ["json", "rustls-tls", "stream"] }
